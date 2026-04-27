@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block title %}Saved Properties{% endblock %}
+{% block body_class %}body-bookmarked{% endblock %}
+
+{% block content %}
+
+<header class="container pt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item d-flex align-items-center text-secondary" aria-current="page">
+        <i class="bi bi-arrow-left-short fs-4"></i>
+        <a class="text-decoration-none text-secondary" href="{{ url_for('main.home') }}">
+          Home
+        </a>
+      </li>
+    </ol>
+  </nav>
+
+  <div class="d-flex justify-content-between align-items-center mb-4 listed-property-card-box">
+    <div>
+      <h3>Saved Properties</h3>
+      <p class="text-muted">
+        Your shortlisted properties with personal notes. 3 properties saved.
+      </p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="bookmarks">
+    <div class="container">
+      <ul class="property-list d-flex justify-content-center list-unstyled">
+        <li class="row w-100">
+
+          <!-- CARD 1 -->
+          <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
+            <div class="card p-0">
+              <img class="best-seller-property-item w-100"
+                src="{{ url_for('static', filename='img/property-for-sale-first.jpg') }}" alt="card-img-top" />
+
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                  <p class="card-text fs-3 fw-semibold m-0">$1,200,000</p>
+                  <p class="card-text text-danger text-decoration-line-through fs-3 fw-semibold m-0">
+                    $1,500,000
+                  </p>
+                </div>
+
+                <h5 class="card-title m-0 my-3">
+                  42 Willow street residence
+                </h5>
+
+                <div class="card-text mb-2">
+                  <b>Status:</b>
+                  <span class="card-body-property-status">Active</span>
+                </div>
+
+                <p class="card-text m-0 mb-3">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </p>
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                  <button class="btn btn-danger">
+                    <i class="bi bi-bookmark"></i>
+                    <a class="text-decoration-none text-white" href="#">
+                      Remove from cart
+                    </a>
+                  </button>
+
+                  <button class="btn btn-outline-warning text-dark">
+                    <i class="bi bi-eye"></i>
+                    <a class="text-decoration-none text-dark" href="{{ url_for('main.property_details') }}">
+                      Quick View
+                    </a>
+                  </button>
+                </div>
+
+                <span class="divider-of-note"></span>
+
+                <div class="alert alert-warning" role="alert">
+                  Check roof age - inspector mentioned it might need replacement
+                  in the next 5 years.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
+            <div class="card p-0">
+              <img class="w-100 best-seller-property-item"
+                src="{{ url_for('static', filename='img/property-for-sale-second.jpg') }}" alt="card-img-top" />
+
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                  <p class="card-text fs-3 fw-semibold m-0">$1,890,000</p>
+                  <p class="card-text text-danger text-decoration-line-through fs-3 fw-semibold m-0">
+                    $2,500,000
+                  </p>
+                </div>
+
+                <h5 class="card-title m-0 my-3">
+                  The concrete residence
+                </h5>
+
+                <div class="card-text mb-2">
+                  <b>Status:</b>
+                  <span class="card-body-property-status bg-warning">
+                    Under offer
+                  </span>
+                </div>
+
+                <p class="card-text m-0 mb-3">
+                  <small class="text-muted">Last updated 2 days ago</small>
+                </p>
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                  <button class="btn btn-danger">
+                    <i class="bi bi-bookmark"></i>
+                    <a class="text-decoration-none text-white" href="#">
+                      Remove from cart
+                    </a>
+                  </button>
+
+                  <button class="btn btn-outline-warning text-dark">
+                    <i class="bi bi-eye"></i>
+                    <a class="text-decoration-none text-dark" href="{{ url_for('main.property_details') }}">
+                      Quick View
+                    </a>
+                  </button>
+                </div>
+
+                <span class="divider-of-note"></span>
+
+                <div class="alert alert-warning" role="alert">
+                  Excellent natural light but check for potential noise from
+                  nearby construction site.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
+            <div class="card p-0">
+              <img class="w-100 best-seller-property-item"
+                src="{{ url_for('static', filename='img/property-for-sale-third.jpg') }}" alt="card-img-top" />
+
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                  <p class="card-text fs-3 fw-semibold m-0">$2,200,000</p>
+                  <p class="card-text text-danger text-decoration-line-through fs-3 fw-semibold m-0">
+                    $2,600,000
+                  </p>
+                </div>
+
+                <h5 class="card-title m-0 my-3">
+                  Greenhaus passive residence
+                </h5>
+
+                <div class="card-text mb-2">
+                  <b>Status:</b>
+                  <span class="card-body-property-status bg-danger">
+                    Price reduced
+                  </span>
+                </div>
+
+                <p class="card-text m-0 mb-3">
+                  <small class="text-muted">Last updated 11 mins ago</small>
+                </p>
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                  <button class="btn btn-danger">
+                    <i class="bi bi-bookmark"></i>
+                    <a class="text-decoration-none text-white" href="#">
+                      Remove from cart
+                    </a>
+                  </button>
+
+                  <button class="btn btn-outline-warning text-dark">
+                    <i class="bi bi-eye"></i>
+                    <a class="text-decoration-none text-dark" href="{{ url_for('main.property_details') }}">
+                      Quick View
+                    </a>
+                  </button>
+                </div>
+
+                <span class="divider-of-note"></span>
+
+                <div class="alert alert-warning" role="alert">
+                  Make sure to review the energy efficiency report - inspector
+                  noted some concerns about insulation quality.
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+{% endblock %}

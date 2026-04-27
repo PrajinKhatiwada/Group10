@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+
+{% block title %}Property Details{% endblock %}
+{% block body_class %}body-property-details{% endblock %}
+
+{% block content %}
+
+<main>
+  <section class="property-details-property-details">
+    <div class="container my-4">
+
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item d-flex align-items-center text-secondary" aria-current="page">
+            <i class="bi bi-arrow-left-short fs-4"></i>
+            <a class="text-decoration-none text-secondary" href="{{ url_for('main.home') }}">
+              Home
+            </a>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Images -->
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994"
+            class="w-100 property-details-card-img-main best-seller-property-item" alt="Main Property Image" />
+        </div>
+
+        <div class="col-lg-4 d-flex flex-column gap-3">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+            class="property-details-side-img w-100 best-seller-property-item" alt="Side Property Image" />
+
+          <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e"
+            class="property-details-side-img w-100 best-seller-property-item" alt="Side Property Image" />
+        </div>
+      </div>
+
+      <!-- Title + Price -->
+      <div class="row mt-4">
+
+        <div class="col-lg-8">
+
+          <span class="badge property-details-badge-active">
+            Active
+          </span>
+
+          <h3 class="mt-2">
+            42 Willow Street Residence
+          </h3>
+
+          <p class="text-muted">
+            42 Willow St, Northcote
+          </p>
+
+          <!-- Info Boxes -->
+          <div class="row g-3">
+
+            <div class="col-6 col-md-3">
+              <div class="property-details-info-box">
+                <i class="fa fa-bed text-muted fs-5"></i>
+                <h5 class="m-0 my-1">4</h5>
+                <small>Bedrooms</small>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="property-details-info-box">
+                <i class="fa fa-solid fa-bath text-muted fs-5"></i>
+                <h5 class="m-0 my-1">3</h5>
+                <small>Bathrooms</small>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="property-details-info-box">
+                <i class="fa fa-solid fa-car text-muted fs-5"></i>
+                <h5 class="m-0 my-1">2</h5>
+                <small>Car Spaces</small>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="property-details-info-box">
+                <i class="fa fa-solid fa-expand text-muted fs-5"></i>
+                <h5 class="m-0 my-1">2400</h5>
+                <small>sq ft</small>
+              </div>
+            </div>
+
+          </div>
+
+          <span class="divider-of-note m-0 my-5"></span>
+
+          <!-- Description -->
+          <div>
+            <h5>Description</h5>
+
+            <p class="text-muted m-0">
+              A meticulously restored mid-century residence set on a generous
+              680sqm allotment. Original terrazzo flooring, floor-to-ceiling
+              glazing, and a cantilevered roofline define the architectural
+              character. The open-plan living area flows seamlessly to a
+              north-facing garden with established native landscaping.
+            </p>
+          </div>
+
+          <span class="divider-of-note m-0 my-5"></span>
+
+          <!-- Features -->
+          <div>
+            <h5>Key Features</h5>
+
+            <div class="row g-2 mt-2">
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <span class="badge bg-light text-dark border w-100 text-center p-2">
+                  Terrazzo flooring
+                </span>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <span class="badge bg-light text-dark border w-100 text-center p-2">
+                  North-facing garden
+                </span>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <span class="badge bg-light text-dark border w-100 text-center p-2">
+                  Heated pool
+                </span>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <span class="badge bg-light text-dark border w-100 text-center p-2">
+                  Solar 6.6kW
+                </span>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <span class="badge bg-light text-dark border w-100 text-center p-2">
+                  Ducted heating
+                </span>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-4">
+                <span class="badge bg-light text-dark border w-100 text-center p-2">
+                  Fireplace
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+          <span class="divider-of-note m-0 my-5"></span>
+
+          <!-- Document Vault -->
+          <div>
+            <h5 class="mb-3">Document Vault</h5>
+
+            <div class="row g-3">
+
+              <div class="col-md-6">
+                <div class="d-flex align-items-center justify-content-between border rounded-3 p-3 bg-white shadow-sm">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="bg-light border rounded p-2">
+                      <i class="bi bi-file-earmark-text"></i>
+                    </div>
+
+                    <div>
+                      <div class="fw-semibold">Contract of Sale</div>
+                      <small class="text-muted">
+                        PDF • 2.4 MB • Updated 2026-03-10
+                      </small>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-sm btn-outline-primary">
+                    View
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="d-flex align-items-center justify-content-between border rounded-3 p-3 bg-white shadow-sm">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="bg-light border rounded p-2">
+                      <i class="bi bi-file-earmark-text"></i>
+                    </div>
+
+                    <div>
+                      <div class="fw-semibold">Seller's Disclosure</div>
+                      <small class="text-muted">
+                        PDF • 1.1 MB • Updated 2026-03-08
+                      </small>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-sm btn-outline-primary">
+                    View
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="d-flex align-items-center justify-content-between border rounded-3 p-3 bg-white shadow-sm">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="bg-light border rounded p-2">
+                      <i class="bi bi-file-earmark-text"></i>
+                    </div>
+
+                    <div>
+                      <div class="fw-semibold">Building Inspection</div>
+                      <small class="text-muted">
+                        PDF • 3.2 MB
+                      </small>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-sm btn-outline-primary">
+                    View
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="d-flex align-items-center justify-content-between border rounded-3 p-3 bg-white shadow-sm">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="bg-light border rounded p-2">
+                      <i class="bi bi-file-earmark-text"></i>
+                    </div>
+
+                    <div>
+                      <div class="fw-semibold">Title Search</div>
+                      <small class="text-muted">
+                        PDF • 900 KB
+                      </small>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-sm btn-outline-primary">
+                    View
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Price Box -->
+        <div class="col-lg-4 mt-4 mt-lg-0">
+
+          <div class="property-details-price-box">
+
+            <p class="text-muted">Asking Price</p>
+
+            <h3>$1,250,000</h3>
+
+            <button class="btn btn-warning w-100 mt-2">
+              <i class="bi bi-bookmark"></i>
+              Bookmark
+            </button>
+
+            <button class="btn btn-success w-100 mt-3">
+              <i class="fa-solid fa-paper-plane me-2"></i>
+              Make an Offer
+            </button>
+
+            <button class="btn btn-primary w-100 mt-3">
+              <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>
+              Submit Enquiry
+            </button>
+
+            <span class="divider-of-note m-0 my-3"></span>
+
+            <div class="listed-property-right-info text-start">
+              7 Enquiries • 2 Offers Pending
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock %}

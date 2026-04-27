@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+{% block body_class %}{% endblock %}
+
+{% block content %}
+<main>
+  <!-- HERO -->
+  <section class="hero mt-5 rounded-3">
+    <div class="container-fluid hero-container">
+      <div class="hero-content-wrapper text-center">
+        <h1 class="hero-heading">Find Your Dream Property Today</h1>
+        <p class="hero-desc">
+          Explore a wide range of properties for sale, tailored to your
+          needs. Browse listings, compare options, and connect with sellers
+          or agents to make your next move with confidence.
+        </p>
+
+        <button class="btn btn-warning">
+          <i class="bi bi-box-arrow-right"></i>
+          Sign up
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <section class="filter">
+    <div class="container">
+      <div class="filter-top">
+        <h4 class="filter-top-heading">Find Your Perfect Property</h4>
+      </div>
+
+      <div class="search-box d-flex align-items-center px-3">
+        <i class="bi bi-search me-2"></i>
+        <input type="text" class="form-control border-0 shadow-none"
+          placeholder="Search by suburb, style, or address..." />
+      </div>
+
+      <div class="filters mt-3 d-flex flex-wrap gap-2">
+        <button class="btn filter-btn active">Mid-Century</button>
+        <button class="btn filter-btn">Brutalist</button>
+        <button class="btn filter-btn">Industrial</button>
+        <button class="btn filter-btn">Passive House</button>
+        <button class="btn filter-btn">Art Deco</button>
+
+        <span class="wall-between-filter"></span>
+
+        <button class="btn filter-btn">Under $1M</button>
+        <button class="btn filter-btn">$1M – $2M</button>
+        <button class="btn filter-btn">$2M – $3M</button>
+        <button class="btn filter-btn">$3M+</button>
+
+        <span class="wall-between-filter"></span>
+
+        <button class="btn filter-btn"><i class="fa fa-bed text-muted me-1"></i>1+</button>
+        <button class="btn filter-btn"><i class="fa fa-bed text-muted me-1"></i>2+</button>
+        <button class="btn filter-btn"><i class="fa fa-bed text-muted me-1"></i>3+</button>
+        <button class="btn filter-btn"><i class="fa fa-bed text-muted me-1"></i>4+</button>
+        <button class="btn filter-btn"><i class="fa fa-bed text-muted me-1"></i>5+</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPERTIES -->
+  <section class="property">
+    <div class="container">
+      <div class="property-top">
+        <h4 class="property-top-heading">Best Seller Properties</h4>
+        <a href="{{ url_for('main.listings') }}" class="property-top-heading-all text-decoration-none">See All</a>
+      </div>
+
+      <ul class="property-list d-flex justify-content-center list-unstyled">
+        <li class="row w-100">
+
+          <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
+            <div class="card p-0">
+              <img class="best-seller-property-item w-100"
+                src="{{ url_for('static', filename='img/property-for-sale-first.jpg') }}" alt="card-img-top" />
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                  <p class="card-text fs-3 fw-semibold m-0">$1,200,000</p>
+                  <p class="card-text text-danger text-decoration-line-through fs-3 fw-semibold m-0">$1,500,000</p>
+                </div>
+
+                <h5 class="card-title m-0 my-3">42 Willow street residence</h5>
+
+                <div class="card-text mb-2">
+                  <b>Status:</b>
+                  <span class="card-body-property-status"> Active </span>
+                </div>
+
+                <p class="card-text m-0 mb-3">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </p>
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                  <button class="btn btn-warning">
+                    <i class="bi bi-bookmark"></i>
+                    <a class="text-decoration-none text-dark" href="#">Add to cart</a>
+                  </button>
+
+                  <button class="btn btn-outline-warning text-dark">
+                    <i class="bi bi-eye"></i>
+                    <a class="text-decoration-none text-dark" href="{{ url_for('main.property_details') }}">Quick
+                      View</a>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
+            <div class="card p-0">
+              <img class="w-100 best-seller-property-item"
+                src="{{ url_for('static', filename='img/property-for-sale-second.jpg') }}" alt="card-img-top" />
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                  <p class="card-text fs-3 fw-semibold m-0">$1,890,000</p>
+                  <p class="card-text text-danger text-decoration-line-through fs-3 fw-semibold m-0">$2,500,000</p>
+                </div>
+
+                <h5 class="card-title m-0 my-3">The concrete residence</h5>
+
+                <div class="card-text mb-2">
+                  <b>Status:</b>
+                  <span class="card-body-property-status bg-warning">Under offer</span>
+                </div>
+
+                <p class="card-text m-0 mb-3">
+                  <small class="text-muted">Last updated 2 days ago</small>
+                </p>
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                  <button class="btn btn-warning">
+                    <i class="bi bi-bookmark"></i>
+                    <a class="text-decoration-none text-dark" href="#">Add to cart</a>
+                  </button>
+
+                  <button class="btn btn-outline-warning text-dark">
+                    <i class="bi bi-eye"></i>
+                    <a class="text-decoration-none text-dark" href="{{ url_for('main.property_details') }}">Quick
+                      View</a>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4">
+            <div class="card p-0">
+              <img class="w-100 best-seller-property-item"
+                src="{{ url_for('static', filename='img/property-for-sale-third.jpg') }}" alt="card-img-top" />
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                  <p class="card-text fs-3 fw-semibold m-0">$2,200,000</p>
+                  <p class="card-text text-danger text-decoration-line-through fs-3 fw-semibold m-0">$2,600,000</p>
+                </div>
+
+                <h5 class="card-title m-0 my-3">Greenhaus passive residence</h5>
+
+                <div class="card-text mb-2">
+                  <b>Status:</b>
+                  <span class="card-body-property-status bg-danger">Price reduced</span>
+                </div>
+
+                <p class="card-text m-0 mb-3">
+                  <small class="text-muted">Last updated 11 mins ago</small>
+                </p>
+
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                  <button class="btn btn-warning">
+                    <i class="bi bi-bookmark"></i>
+                    <a class="text-decoration-none text-dark" href="#">Add to cart</a>
+                  </button>
+
+                  <button class="btn btn-outline-warning text-dark">
+                    <i class="bi bi-eye"></i>
+                    <a class="text-decoration-none text-dark" href="{{ url_for('main.property_details') }}">Quick
+                      View</a>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TOUCH -->
+  <section class="touch">
+    <div class="container touch-container">
+      <h2 class="touch-heading">Keep In Touch and Stay Inspiring Everyday</h2>
+      <p class="touch-desc">
+        Keep connected with us and never miss a moment of inspiration.
+        Subscribe to receive the latest updates, creative ideas, and
+        exclusive insights delivered straight to your inbox—helping you stay
+        motivated and inspired every single day.
+      </p>
+
+      <form class="d-flex align-items-center justify-content-center" action="https://echo.htmlacademy.ru/"
+        method="post">
+        <input class="touch-input form-control form-control-lg" type="email" name="user_email"
+          placeholder="Enter Your Email" />
+
+        <button class="btn btn-outline-dark ms-3">
+          <i class="bi bi-substack"></i>Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}
