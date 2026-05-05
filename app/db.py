@@ -15,6 +15,7 @@ from .models import (
 def get_connection():
     return mysql.connector.connect(
         host=current_app.config["MYSQL_HOST"],
+        port=current_app.config["MYSQL_PORT"],
         user=current_app.config["MYSQL_USER"],
         password=current_app.config["MYSQL_PASSWORD"],
         database=current_app.config["MYSQL_DATABASE"],
@@ -214,7 +215,10 @@ def get_user_by_id(user_id):
 def get_user_by_username(username):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM users WHERE username=%s", (username,))
+    cur.execute(
+        "SELECT * FROM users WHERE LOWER(TRIM(username)) = LOWER(TRIM(%s))",
+        (username,)
+    )
     row = cur.fetchone()
     cur.close()
     conn.close()
@@ -222,11 +226,15 @@ def get_user_by_username(username):
 
 
 def check_user_login(username, password):
+    username = username.strip()
+    password = password.strip()
+
     user = get_user_by_username(username)
+
     if user and check_password_hash(user.password_hash, password):
         return user
-    return None
 
+    return None
 
 def add_user(user):
     conn = get_connection()

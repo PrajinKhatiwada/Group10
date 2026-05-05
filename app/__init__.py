@@ -10,9 +10,10 @@ def create_app():
     app.secret_key = os.getenv("SECRET_KEY", "PropertySalesSecretKey2024!")
 
     app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST", "localhost")
+    app.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT", 3306))
     app.config["MYSQL_USER"] = os.getenv("MYSQL_USER", "root")
     app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD", "your_mysql_password")
-    app.config["MYSQL_DATABASE"] = os.getenv("MYSQL_DATABASE", "property_sales_db")
+    app.config["MYSQL_DATABASE"] = os.getenv("MYSQL_DATABASE", "property_sales")
 
     CSRFProtect(app)
     Bootstrap5(app)
