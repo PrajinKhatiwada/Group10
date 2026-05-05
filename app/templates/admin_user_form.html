@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Create User – Property Sales{% endblock %}
+{% block body_class %}body-listed-properties{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="text-decoration-none text-secondary d-flex align-items-center"
+          href="{{ url_for('main.admin_users') }}">
+          <i class="bi bi-arrow-left-short fs-4"></i> Manage Users
+        </a>
+      </li>
+      <li class="breadcrumb-item active">Create New User</li>
+    </ol>
+  </nav>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+          <h4 class="fw-bold mb-4">
+            <i class="bi bi-person-plus me-2"></i>Create New User
+          </h4>
+
+          <form method="POST" action="{{ url_for('main.admin_new_user') }}" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <div class="row g-3">
+
+              <div class="col-12">
+                <label for="username" class="form-label fw-semibold">Username <span class="text-danger">*</span></label>
+                <input type="text" id="username" name="username"
+                  class="form-control" placeholder="Username" required minlength="3" />
+              </div>
+
+              <div class="col-12">
+                <label for="password" class="form-label fw-semibold">Password <span class="text-danger">*</span></label>
+                <input type="password" id="password" name="password"
+                  class="form-control" placeholder="At least 6 characters" required minlength="6" />
+              </div>
+
+              <div class="col-12">
+                <label for="email" class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+                <input type="email" id="email" name="email"
+                  class="form-control" placeholder="user@example.com" required />
+              </div>
+
+              <div class="col-md-6">
+                <label for="firstname" class="form-label fw-semibold">First Name <span class="text-danger">*</span></label>
+                <input type="text" id="firstname" name="firstname"
+                  class="form-control" placeholder="First name" required />
+              </div>
+
+              <div class="col-md-6">
+                <label for="surname" class="form-label fw-semibold">Surname <span class="text-danger">*</span></label>
+                <input type="text" id="surname" name="surname"
+                  class="form-control" placeholder="Surname" required />
+              </div>
+
+              <div class="col-12">
+                <label for="phone" class="form-label fw-semibold">Phone <span class="text-danger">*</span></label>
+                <input type="text" id="phone" name="phone"
+                  class="form-control" placeholder="e.g. 0412 345 678" required />
+              </div>
+
+              <div class="col-12">
+                <label for="role" class="form-label fw-semibold">Role <span class="text-danger">*</span></label>
+                <select id="role" name="role" class="form-select" required>
+                  <option value="buyer">Buyer</option>
+                  <option value="seller">Seller</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+
+            </div>
+
+            <div class="d-flex gap-3 mt-4">
+              <button type="submit" class="btn btn-warning fw-semibold px-4">
+                <i class="bi bi-person-check me-1"></i>Create User
+              </button>
+              <a href="{{ url_for('main.admin_users') }}" class="btn btn-outline-secondary">
+                Cancel
+              </a>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

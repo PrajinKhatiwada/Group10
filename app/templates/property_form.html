@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} – Property Sales{% endblock %}
+{% block body_class %}body-listed-properties{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="text-decoration-none text-secondary d-flex align-items-center"
+          href="{{ url_for('main.listings') }}">
+          <i class="bi bi-arrow-left-short fs-4"></i> My Listings
+        </a>
+      </li>
+      <li class="breadcrumb-item active">{{ title }}</li>
+    </ol>
+  </nav>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+
+      <h4 class="fw-bold mb-4">
+        <i class="bi bi-house-add me-2"></i>{{ title }}
+      </h4>
+
+      <form method="POST" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+        <div class="row g-3">
+
+          <!-- Title -->
+          <div class="col-12">
+            <label for="title" class="form-label fw-semibold">Property Title <span class="text-danger">*</span></label>
+            <input type="text" id="title" name="title"
+              class="form-control" value="{{ form.title.data or '' }}"
+              placeholder="e.g. 42 Willow Street Residence" required />
+          </div>
+
+          <!-- Address & Suburb -->
+          <div class="col-md-6">
+            <label for="address" class="form-label fw-semibold">Street Address <span class="text-danger">*</span></label>
+            <input type="text" id="address" name="address"
+              class="form-control" value="{{ form.address.data or '' }}"
+              placeholder="e.g. 42 Willow St" required />
+          </div>
+          <div class="col-md-6">
+            <label for="suburb" class="form-label fw-semibold">Suburb <span class="text-danger">*</span></label>
+            <input type="text" id="suburb" name="suburb"
+              class="form-control" value="{{ form.suburb.data or '' }}"
+              placeholder="e.g. Northcote" required />
+          </div>
+
+          <!-- Description -->
+          <div class="col-12">
+            <label for="description" class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
+            <textarea id="description" name="description"
+              class="form-control" rows="4"
+              placeholder="Describe the property..." required>{{ form.description.data or '' }}</textarea>
+          </div>
+
+          <!-- Price & Original Price -->
+          <div class="col-md-6">
+            <label for="price" class="form-label fw-semibold">Asking Price ($) <span class="text-danger">*</span></label>
+            <input type="number" id="price" name="price"
+              class="form-control" value="{{ form.price.data or '' }}"
+              placeholder="e.g. 1250000" min="0" step="1000" required />
+          </div>
+          <div class="col-md-6">
+            <label for="original_price" class="form-label fw-semibold">Original Price ($) <span class="text-danger">*</span></label>
+            <input type="number" id="original_price" name="original_price"
+              class="form-control" value="{{ form.original_price.data or '' }}"
+              placeholder="e.g. 1500000" min="0" step="1000" required />
+          </div>
+
+          <!-- Category & Status -->
+          <div class="col-md-6">
+            <label for="category" class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+            <select id="category" name="category" class="form-select" required>
+              <option value="House" {% if form.category.data == 'House' %}selected{% endif %}>House</option>
+              <option value="Apartment" {% if form.category.data == 'Apartment' %}selected{% endif %}>Apartment</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="status" class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
+            <select id="status" name="status" class="form-select" required>
+              <option value="Active"      {% if form.status.data == 'Active' %}selected{% endif %}>Active</option>
+              <option value="Under Offer" {% if form.status.data == 'Under Offer' %}selected{% endif %}>Under Offer</option>
+              <option value="Sold"        {% if form.status.data == 'Sold' %}selected{% endif %}>Sold</option>
+              <option value="Withdrawn"   {% if form.status.data == 'Withdrawn' %}selected{% endif %}>Withdrawn</option>
+            </select>
+          </div>
+
+          <!-- Bedrooms, Bathrooms, Car Spaces, Size -->
+          <div class="col-6 col-md-3">
+            <label for="bedrooms" class="form-label fw-semibold">Bedrooms <span class="text-danger">*</span></label>
+            <input type="number" id="bedrooms" name="bedrooms"
+              class="form-control" value="{{ form.bedrooms.data or 0 }}"
+              min="0" required />
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="bathrooms" class="form-label fw-semibold">Bathrooms <span class="text-danger">*</span></label>
+            <input type="number" id="bathrooms" name="bathrooms"
+              class="form-control" value="{{ form.bathrooms.data or 0 }}"
+              min="0" required />
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="car_spaces" class="form-label fw-semibold">Car Spaces <span class="text-danger">*</span></label>
+            <input type="number" id="car_spaces" name="car_spaces"
+              class="form-control" value="{{ form.car_spaces.data or 0 }}"
+              min="0" required />
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="size_sqft" class="form-label fw-semibold">Size (sq ft) <span class="text-danger">*</span></label>
+            <input type="number" id="size_sqft" name="size_sqft"
+              class="form-control" value="{{ form.size_sqft.data or 0 }}"
+              min="0" required />
+          </div>
+
+          <!-- Image filename -->
+          <div class="col-12">
+            <label for="image" class="form-label fw-semibold">
+              Image Filename <span class="text-danger">*</span>
+            </label>
+            <input type="text" id="image" name="image"
+              class="form-control" value="{{ form.image.data or '' }}"
+              placeholder="e.g. property-for-sale-first.jpg" required />
+            <div class="form-text text-muted">
+              Available: property-for-sale-first.jpg, property-for-sale-second.jpg, property-for-sale-third.jpg
+            </div>
+          </div>
+
+          <!-- Features -->
+          <div class="col-12">
+            <label for="features" class="form-label fw-semibold">Key Features</label>
+            <input type="text" id="features" name="features"
+              class="form-control" value="{{ form.features.data or '' }}"
+              placeholder="e.g. Heated pool, Solar 6.6kW, Ducted heating" />
+            <div class="form-text text-muted">Separate each feature with a comma.</div>
+          </div>
+
+        </div>
+
+        <div class="d-flex gap-3 mt-4">
+          <button type="submit" class="btn btn-warning fw-semibold px-4">
+            <i class="bi bi-save me-1"></i>Save Listing
+          </button>
+          <a href="{{ url_for('main.listings') }}" class="btn btn-outline-secondary">
+            Cancel
+          </a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

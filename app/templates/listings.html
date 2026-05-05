@@ -1,215 +1,137 @@
 {% extends 'base.html' %}
 
-{% block title %}Listed Properties{% endblock %}
+{% block title %}My Listings – Property Sales{% endblock %}
 {% block body_class %}body-listed-properties{% endblock %}
 
 {% block content %}
+<div class="container pt-4 pb-5">
 
-<header class="container pt-4">
+  <!-- Breadcrumb -->
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item d-flex align-items-center text-secondary" aria-current="page">
-        <i class="bi bi-arrow-left-short fs-4"></i>
-        <a class="text-decoration-none text-secondary" href="{{ url_for('main.home') }}">
-          Home
+      <li class="breadcrumb-item">
+        <a class="text-decoration-none text-secondary d-flex align-items-center"
+          href="{{ url_for('main.home') }}">
+          <i class="bi bi-arrow-left-short fs-4"></i> Home
         </a>
+      </li>
+      <li class="breadcrumb-item active">
+        {% if current_user.is_admin() %}All Listings{% else %}My Listings{% endif %}
       </li>
     </ol>
   </nav>
 
-  <div class="d-flex justify-content-between align-items-center mb-4 listed-property-card-box">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4 listed-property-card-box flex-wrap gap-3">
     <div>
-      <h3>Listed Properties</h3>
-      <p class="text-muted">
+      <h3>{% if current_user.is_admin() %}All Platform Listings{% else %}My Listed Properties{% endif %}</h3>
+      <p class="text-muted mb-0">
         Manage your property listings, respond to enquiries, and review offers.
       </p>
     </div>
+    <a href="{{ url_for('main.new_listing') }}" class="btn btn-warning">
+      <i class="bi bi-plus-circle me-1"></i>Add New Listing
+    </a>
   </div>
-</header>
 
-<main>
-  <section class="listed-property">
-    <div class="container py-4">
-
-      <div class="row g-3 mb-4">
-        <div class="col-md-4">
-          <div class="listed-property-card-box statistic-listed-property-wrapper">
-            <p class="text-muted">Active Listings</p>
-            <div class="d-flex align-items-center justify-content-end gap-2">
-              <i class="bi bi-activity text-success fs-3"></i>
-              <h4 class="fw-semibold text-success">6</h4>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="listed-property-card-box statistic-listed-property-wrapper">
-            <p class="text-muted">Total Enquiries</p>
-            <div class="d-flex align-items-center justify-content-end gap-2">
-              <i class="bi bi-book-half text-primary fs-3"></i>
-              <h4 class="fw-semibold text-primary">41</h4>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="listed-property-card-box statistic-listed-property-wrapper">
-            <p class="text-muted">Pending Offers</p>
-            <div class="d-flex align-items-center justify-content-end gap-2">
-              <i class="bi bi-hourglass text-warning fs-3"></i>
-              <h4 class="fw-semibold text-warning">7</h4>
-            </div>
-          </div>
+  <!-- Stats -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="listed-property-card-box statistic-listed-property-wrapper">
+        <p class="text-muted mb-1">Active Listings</p>
+        <div class="d-flex align-items-center justify-content-end gap-2">
+          <i class="bi bi-activity text-success fs-3"></i>
+          <h4 class="fw-semibold text-success mb-0">{{ active_count }}</h4>
         </div>
       </div>
-
-      <div class="listed-property-card">
-        <img src="{{ url_for('static', filename='img/property-for-sale-first.jpg') }}" class="listed-property-img"
-          alt="Property" />
-
-        <div>
-          <span class="listed-property-status listed-property-active">Active</span>
-          <h5 class="mt-2">42 Willow Street Residence</h5>
-          <p class="text-muted mb-1">42 Willow St, Northcote</p>
-          <p class="listed-property-price">$1,250,000</p>
-        </div>
-
-        <div class="ms-auto">
-          <a href="{{ url_for('main.property_details') }}"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-eye me-1"></i>View
-          </a>
-
-          <a href="#"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-pencil-square me-1"></i>Edit
-          </a>
-        </div>
-      </div>
-
-      <div class="listed-property-card">
-        <img src="{{ url_for('static', filename='img/property-for-sale-second.jpg') }}" class="listed-property-img"
-          alt="Property" />
-
-        <div>
-          <span class="listed-property-status listed-property-offer">Under Offer</span>
-          <h5 class="mt-2">The Concrete Pavilion</h5>
-          <p class="text-muted mb-1">8 Harper Lane, Fitzroy</p>
-          <p class="listed-property-price">$1,890,000</p>
-        </div>
-
-        <div class="ms-auto">
-          <a href="{{ url_for('main.property_details') }}"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-eye me-1"></i>View
-          </a>
-
-          <a href="#"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-pencil-square me-1"></i>Edit
-          </a>
-        </div>
-      </div>
-
-      <div class="listed-property-card">
-        <img src="{{ url_for('static', filename='img/property-for-sale-third.jpg') }}" class="listed-property-img"
-          alt="Property" />
-
-        <div>
-          <span class="listed-property-status listed-property-offer bg-danger text-white">
-            Price reduced
-          </span>
-          <h5 class="mt-2">Glass Edge Estate</h5>
-          <p class="text-muted mb-1">1 Panorama Dr, Toorak</p>
-          <p class="listed-property-price">$4,750,000</p>
-        </div>
-
-        <div class="ms-auto">
-          <a href="{{ url_for('main.property_details') }}"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-eye me-1"></i>View
-          </a>
-
-          <a href="#"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-pencil-square me-1"></i>Edit
-          </a>
-        </div>
-      </div>
-
-      <div class="listed-property-card">
-        <img src="https://picsum.photos/200/120" class="listed-property-img" alt="Property" />
-
-        <div>
-          <span class="listed-property-status listed-property-active">Active</span>
-          <h5 class="mt-2">42 Willow Street Residence</h5>
-          <p class="text-muted mb-1">42 Willow St, Northcote</p>
-          <p class="listed-property-price">$1,250,000</p>
-        </div>
-
-        <div class="ms-auto">
-          <a href="{{ url_for('main.property_details') }}"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-eye me-1"></i>View
-          </a>
-
-          <a href="#"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-pencil-square me-1"></i>Edit
-          </a>
-        </div>
-      </div>
-
-      <div class="listed-property-card">
-        <img src="https://picsum.photos/201/120" class="listed-property-img" alt="Property" />
-
-        <div>
-          <span class="listed-property-status listed-property-offer">Under Offer</span>
-          <h5 class="mt-2">The Concrete Pavilion</h5>
-          <p class="text-muted mb-1">8 Harper Lane, Fitzroy</p>
-          <p class="listed-property-price">$1,890,000</p>
-        </div>
-
-        <div class="ms-auto">
-          <a href="{{ url_for('main.property_details') }}"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-eye me-1"></i>View
-          </a>
-
-          <a href="#"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-pencil-square me-1"></i>Edit
-          </a>
-        </div>
-      </div>
-
-      <div class="listed-property-card">
-        <img src="https://picsum.photos/201/120" class="listed-property-img" alt="Property" />
-
-        <div>
-          <span class="listed-property-status listed-property-offer bg-danger text-white">
-            Price reduced
-          </span>
-          <h5 class="mt-2">Glass Edge Estate</h5>
-          <p class="text-muted mb-1">1 Panorama Dr, Toorak</p>
-          <p class="listed-property-price">$4,750,000</p>
-        </div>
-
-        <div class="ms-auto">
-          <a href="{{ url_for('main.property_details') }}"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-eye me-1"></i>View
-          </a>
-
-          <a href="#"
-            class="badge badge-primary text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
-            <i class="bi bi-pencil-square me-1"></i>Edit
-          </a>
-        </div>
-      </div>
-
     </div>
-  </section>
-</main>
+    <div class="col-md-4">
+      <div class="listed-property-card-box statistic-listed-property-wrapper">
+        <p class="text-muted mb-1">Total Enquiries</p>
+        <div class="d-flex align-items-center justify-content-end gap-2">
+          <i class="bi bi-book-half text-primary fs-3"></i>
+          <h4 class="fw-semibold text-primary mb-0">{{ enquiry_count }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="listed-property-card-box statistic-listed-property-wrapper">
+        <p class="text-muted mb-1">Pending Offers</p>
+        <div class="d-flex align-items-center justify-content-end gap-2">
+          <i class="bi bi-hourglass text-warning fs-3"></i>
+          <h4 class="fw-semibold text-warning mb-0">{{ offer_count }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Listings -->
+  {% if props %}
+    {% for prop in props %}
+    <div class="listed-property-card">
+      <img src="{{ url_for('static', filename='img/' + prop.image) }}"
+        class="listed-property-img" alt="{{ prop.title }}" />
+
+      <div class="flex-grow-1">
+        <span class="listed-property-status
+          {% if prop.status.value == 'Active' %}listed-property-active
+          {% elif prop.status.value == 'Under Offer' %}listed-property-offer
+          {% elif prop.status.value == 'Sold' %}bg-danger text-white
+          {% else %}bg-secondary text-white{% endif %}">
+          {{ prop.status.value }}
+        </span>
+        <span class="badge bg-secondary ms-1">{{ prop.category.value }}</span>
+        <h5 class="mt-2 mb-0">{{ prop.title }}</h5>
+        <p class="text-muted mb-1 small">
+          <i class="bi bi-geo-alt me-1"></i>{{ prop.address }}, {{ prop.suburb }}
+        </p>
+        <p class="listed-property-price mb-1">${{ '{:,.0f}'.format(prop.price) }}</p>
+        <div class="d-flex gap-3 text-muted small">
+          <span><i class="fa fa-bed me-1"></i>{{ prop.bedrooms }}</span>
+          <span><i class="fa fa-bath me-1"></i>{{ prop.bathrooms }}</span>
+          <span><i class="fa fa-car me-1"></i>{{ prop.car_spaces }}</span>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column gap-2 ms-auto align-items-end">
+        <a href="{{ url_for('main.property_details', property_id=prop.id) }}"
+          class="badge text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
+          <i class="bi bi-eye me-1"></i>View
+        </a>
+        <a href="{{ url_for('main.edit_listing', property_id=prop.id) }}"
+          class="badge text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
+          <i class="bi bi-pencil-square me-1"></i>Edit
+        </a>
+        <a href="{{ url_for('main.listing_enquiries', property_id=prop.id) }}"
+          class="badge text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
+          <i class="bi bi-envelope me-1"></i>Enquiries
+        </a>
+        <a href="{{ url_for('main.listing_offers', property_id=prop.id) }}"
+          class="badge text-bg-light text-decoration-none p-2 statistic-card-property-wrapper">
+          <i class="bi bi-tag me-1"></i>Offers
+        </a>
+        <form method="POST"
+          action="{{ url_for('main.delete_listing', property_id=prop.id) }}"
+          onsubmit="return confirm('Delete this listing?')">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+          <button type="submit"
+            class="badge text-bg-danger border-0 text-decoration-none p-2 statistic-card-property-wrapper"
+            style="cursor:pointer;">
+            <i class="bi bi-trash me-1"></i>Delete
+          </button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+  <div class="text-center py-5">
+    <i class="bi bi-house display-4 text-muted"></i>
+    <h5 class="mt-3 text-muted">No listings yet.</h5>
+    <a href="{{ url_for('main.new_listing') }}" class="btn btn-warning mt-3">
+      <i class="bi bi-plus-circle me-1"></i>Add Your First Listing
+    </a>
+  </div>
+  {% endif %}
+
+</div>
 {% endblock %}
