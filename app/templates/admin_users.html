@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Users – Property Sales{% endblock %}
+{% block body_class %}body-listed-properties{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="text-decoration-none text-secondary d-flex align-items-center"
+          href="{{ url_for('main.home') }}">
+          <i class="bi bi-arrow-left-short fs-4"></i> Home
+        </a>
+      </li>
+      <li class="breadcrumb-item active">Manage Users</li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4 listed-property-card-box flex-wrap gap-3">
+    <div>
+      <h4 class="fw-bold mb-1">
+        <i class="bi bi-people me-2"></i>User Management
+      </h4>
+      <p class="text-muted mb-0">
+        {{ users|length }} registered user{{ 's' if users|length != 1 else '' }}.
+      </p>
+    </div>
+    <a href="{{ url_for('main.admin_new_user') }}" class="btn btn-warning">
+      <i class="bi bi-person-plus me-1"></i>Add New User
+    </a>
+  </div>
+
+  <!-- Stats row -->
+  <div class="row g-3 mb-4">
+    {% set admins  = users | selectattr('role.value', 'equalto', 'admin')  | list %}
+    {% set sellers = users | selectattr('role.value', 'equalto', 'seller') | list %}
+    {% set buyers  = users | selectattr('role.value', 'equalto', 'buyer')  | list %}
+    <div class="col-md-4">
+      <div class="listed-property-card-box statistic-listed-property-wrapper">
+        <p class="text-muted mb-1">Admins</p>
+        <div class="d-flex align-items-center justify-content-end gap-2">
+          <i class="bi bi-shield-lock text-danger fs-3"></i>
+          <h4 class="fw-semibold text-danger mb-0">{{ admins|length }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="listed-property-card-box statistic-listed-property-wrapper">
+        <p class="text-muted mb-1">Sellers</p>
+        <div class="d-flex align-items-center justify-content-end gap-2">
+          <i class="bi bi-house text-warning fs-3"></i>
+          <h4 class="fw-semibold text-warning mb-0">{{ sellers|length }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="listed-property-card-box statistic-listed-property-wrapper">
+        <p class="text-muted mb-1">Buyers</p>
+        <div class="d-flex align-items-center justify-content-end gap-2">
+          <i class="bi bi-person text-success fs-3"></i>
+          <h4 class="fw-semibold text-success mb-0">{{ buyers|length }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users table -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-warning">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td class="text-muted small">{{ user.id }}</td>
+              <td>{{ user.full_name() }}</td>
+              <td><code>{{ user.username }}</code></td>
+              <td class="text-muted small">{{ user.email }}</td>
+              <td class="text-muted small">{{ user.phone }}</td>
+              <td>
+                <span class="badge
+                  {% if user.role.value == 'admin' %}bg-danger
+                  {% elif user.role.value == 'seller' %}bg-warning text-dark
+                  {% else %}bg-success{% endif %}">
+                  {{ user.role.value }}
+                </span>
+              </td>
+              <td class="text-end">
+                {% if user.id != current_user.id %}
+                <form method="POST"
+                  action="{{ url_for('main.admin_delete_user', user_id=user.id) }}"
+                  onsubmit="return confirm('Delete user {{ user.username }}?')"
+                  class="d-inline">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash me-1"></i>Delete
+                  </button>
+                </form>
+                {% else %}
+                <span class="text-muted small">You</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

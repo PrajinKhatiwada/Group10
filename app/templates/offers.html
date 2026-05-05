@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Offers – {{ prop.title }}{% endblock %}
+{% block body_class %}body-listed-properties{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="text-decoration-none text-secondary d-flex align-items-center"
+          href="{{ url_for('main.listings') }}">
+          <i class="bi bi-arrow-left-short fs-4"></i> My Listings
+        </a>
+      </li>
+      <li class="breadcrumb-item active">Offers</li>
+    </ol>
+  </nav>
+
+  <!-- Header -->
+  <div class="listed-property-card-box mb-4">
+    <h4 class="fw-bold mb-1">
+      <i class="bi bi-tag me-2"></i>Offers for:
+      <span class="text-warning">{{ prop.title }}</span>
+    </h4>
+    <p class="text-muted mb-0 small">
+      <i class="bi bi-geo-alt me-1"></i>{{ prop.address }}, {{ prop.suburb }}
+      &nbsp;•&nbsp; Asking: <strong>${{ '{:,.0f}'.format(prop.price) }}</strong>
+    </p>
+  </div>
+
+  {% if offers %}
+
+    {% for offer in offers %}
+    {% set buyer = buyers.get(offer.buyer_id) %}
+    <div class="card shadow-sm mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+        <div>
+          <strong>
+            <i class="bi bi-person me-1"></i>
+            {{ buyer.full_name() if buyer else 'Unknown Buyer' }}
+          </strong>
+          <span class="text-muted small ms-2">{{ buyer.email if buyer else '' }}</span>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge
+            {% if offer.status == OfferStatus.PENDING %}bg-warning text-dark
+            {% elif offer.status == OfferStatus.ACCEPTED %}bg-success
+            {% else %}bg-danger{% endif %}">
+            {{ offer.status.value }}
+          </span>
+          <small class="text-muted">{{ offer.created_at.strftime('%d %b %Y') }}</small>
+        </div>
+
+      </div>
+
+      <div class="card-body">
+
+        <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
+          <div>
+            <p class="text-muted small mb-0">Offer Amount</p>
+            <h4 class="fw-bold text-success mb-0">${{ '{:,.0f}'.format(offer.amount) }}</h4>
+          </div>
+          <div>
+            <p class="text-muted small mb-0">vs Asking Price</p>
+            {% set diff = offer.amount - prop.price %}
+            <h5 class="mb-0 {% if diff >= 0 %}text-success{% else %}text-danger{% endif %}">
+              {% if diff >= 0 %}+{% endif %}${{ '{:,.0f}'.format(diff) }}
+            </h5>
+          </div>
+        </div>
+
+        {% if offer.message %}
+        <div class="alert alert-light border small mb-3">
+          <i class="bi bi-chat-quote me-1"></i>{{ offer.message }}
+        </div>
+        {% endif %}
+
+        <!-- Update status -->
+        <form method="POST" action="{{ url_for('main.update_offer_status', offer_id=offer.id) }}"
+          class="d-flex align-items-center gap-2 flex-wrap">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+          <input type="hidden" name="property_id" value="{{ prop.id }}" />
+          <label class="fw-semibold small mb-0">Update Status:</label>
+          <select name="status" class="form-select form-select-sm" style="width: auto;">
+            {% for status in OfferStatus %}
+            <option value="{{ status.value }}"
+              {% if status == offer.status %}selected{% endif %}>
+              {{ status.value }}
+            </option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-warning btn-sm">
+            <i class="bi bi-check2 me-1"></i>Update
+          </button>
+        </form>
+
+      </div>
+    </div>
+    {% endfor %}
+
+  {% else %}
+  <div class="text-center py-5">
+    <i class="bi bi-tag display-4 text-muted"></i>
+    <h5 class="mt-3 text-muted">No offers yet for this property.</h5>
+    <a href="{{ url_for('main.listings') }}" class="btn btn-warning mt-3">
+      Back to Listings
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
