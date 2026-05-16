@@ -12,8 +12,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a class="text-decoration-none text-secondary d-flex align-items-center"
-              href="{{ url_for('main.home') }}">
+            <a class="text-decoration-none text-secondary d-flex align-items-center" href="{{ url_for('main.home') }}">
               <i class="bi bi-arrow-left-short fs-4"></i> Home
             </a>
           </li>
@@ -22,19 +21,50 @@
       </nav>
 
       <!-- Images -->
+      {% if prop.images and prop.images|length > 0 %}
       <div class="row g-3">
+
+        <!-- Main Image Slider -->
         <div class="col-lg-8">
-          <img src="{{ url_for('static', filename='img/' + prop.image) }}"
-            class="w-100 property-details-card-img-main best-seller-property-item"
-            alt="{{ prop.title }}" />
+          <div id="propertyImageSlider" class="carousel slide" data-bs-ride="carousel">
+
+            <div class="carousel-inner rounded-4 overflow-hidden">
+              {% for image in prop.images %}
+              <div class="carousel-item {% if loop.first %}active{% endif %}">
+                <img src="{{ url_for('static', filename='uploads/' + image) }}"
+                  class="w-100 property-details-card-img-main best-seller-property-item" alt="{{ prop.title }}" />
+              </div>
+              {% endfor %}
+            </div>
+
+            {% if prop.images|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#propertyImageSlider"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#propertyImageSlider"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+            {% endif %}
+
+          </div>
         </div>
+
+        <!-- Side Images -->
         <div class="col-lg-4 d-flex flex-column gap-3">
-          <img src="{{ url_for('static', filename='img/' + prop.image) }}"
+          <img
+            src="{{ url_for('static', filename='uploads/' + (prop.images[1] if prop.images|length > 1 else prop.images[0])) }}"
             class="property-details-side-img w-100" alt="{{ prop.title }}" />
-          <img src="{{ url_for('static', filename='img/' + prop.image) }}"
+
+          <img
+            src="{{ url_for('static', filename='uploads/' + (prop.images[2] if prop.images|length > 2 else prop.images[0])) }}"
             class="property-details-side-img w-100" alt="{{ prop.title }}" />
         </div>
+
       </div>
+      {% endif %}
 
       <div class="row mt-4">
 
@@ -121,9 +151,10 @@
 
           <!-- Documents -->
           <h5 class="mb-3">Document Vault</h5>
+
           <div class="row g-3 mb-4">
-            {% for doc in [('Contract of Sale', '2.4 MB'), ('Seller\'s Disclosure', '1.1 MB'),
-                           ('Building Inspection', '3.2 MB'), ('Title Search', '900 KB')] %}
+            {% if documents %}
+            {% for doc in documents %}
             <div class="col-md-6">
               <div class="d-flex align-items-center justify-content-between border rounded-3 p-3 bg-white shadow-sm">
                 <div class="d-flex align-items-center gap-3">
@@ -131,14 +162,25 @@
                     <i class="bi bi-file-earmark-text"></i>
                   </div>
                   <div>
-                    <div class="fw-semibold">{{ doc[0] }}</div>
-                    <small class="text-muted">PDF • {{ doc[1] }}</small>
+                    <div class="fw-semibold">{{ doc.document_name }}</div>
+                    <small class="text-muted">
+                      {{ doc.file_type }} • {{ doc.file_size }}
+                    </small>
                   </div>
                 </div>
-                <button class="btn btn-sm btn-outline-primary">View</button>
+
+                <a href="{{ url_for('static', filename='documents/' ~ doc.file_name) }}" target="_blank"
+                  class="btn btn-sm btn-outline-primary">
+                  View
+                </a>
               </div>
             </div>
             {% endfor %}
+            {% else %}
+            <div class="col-12">
+              <p class="text-muted">No documents uploaded for this property.</p>
+            </div>
+            {% endif %}
           </div>
 
           <!-- Enquiry Form (buyers only) -->
@@ -149,8 +191,7 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <div class="mb-3">
               <textarea name="message" class="form-control" rows="4"
-                placeholder="Ask about inspection times, features, or settlement..." required
-                minlength="10"></textarea>
+                placeholder="Ask about inspection times, features, or settlement..." required minlength="10"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">
               <i class="fa-solid fa-arrow-right-to-bracket me-1"></i>Submit Enquiry
@@ -165,8 +206,7 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <div class="mb-3">
               <label class="form-label">Offer Amount ($)</label>
-              <input type="number" name="amount" class="form-control"
-                placeholder="e.g. 1200000" min="1" required />
+              <input type="number" name="amount" class="form-control" placeholder="e.g. 1200000" min="1" required />
             </div>
             <div class="mb-3">
               <label class="form-label">Message (optional)</label>
@@ -227,7 +267,8 @@
             {% endif %}
 
             <!-- Seller management links -->
-            {% if current_user and (current_user.is_admin() or (current_user.is_seller() and current_user.id == prop.seller_id)) %}
+            {% if current_user and (current_user.is_admin() or (current_user.is_seller() and current_user.id ==
+            prop.seller_id)) %}
             <hr>
             <a href="{{ url_for('main.edit_listing', property_id=prop.id) }}"
               class="btn btn-outline-secondary w-100 mb-2">
@@ -237,8 +278,7 @@
               class="btn btn-outline-primary w-100 mb-2">
               <i class="bi bi-envelope me-1"></i>View Enquiries ({{ enquiry_count }})
             </a>
-            <a href="{{ url_for('main.listing_offers', property_id=prop.id) }}"
-              class="btn btn-outline-success w-100">
+            <a href="{{ url_for('main.listing_offers', property_id=prop.id) }}" class="btn btn-outline-success w-100">
               <i class="bi bi-tag me-1"></i>View Offers ({{ offer_count }})
             </a>
             {% endif %}
