@@ -4,14 +4,108 @@
 {% block body_class %}body-listed-properties{% endblock %}
 
 {% block content %}
+<style>
+  .listing-form-card {
+    border: 0;
+    border-radius: 24px;
+    overflow: hidden;
+    background: #ffffff;
+  }
+
+  .listing-form-header {
+    background: linear-gradient(135deg, #111827, #374151);
+    color: #fff;
+    padding: 28px;
+    border-radius: 22px;
+    margin-bottom: 28px;
+  }
+
+  .form-section {
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 24px;
+    background: #fff;
+    margin-bottom: 24px;
+  }
+
+  .form-section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .form-control,
+  .form-select {
+    border-radius: 14px;
+    padding: 12px 14px;
+    border-color: #d1d5db;
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.18);
+  }
+
+  .image-upload-box {
+    border: 2px dashed #d1d5db;
+    border-radius: 20px;
+    padding: 28px;
+    background: #f9fafb;
+    text-align: center;
+    transition: 0.2s ease;
+  }
+
+  .image-upload-box:hover {
+    border-color: #f59e0b;
+    background: #fffbeb;
+  }
+
+  .image-upload-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fef3c7;
+    color: #92400e;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+
+  .image-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .image-preview-grid img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .action-bar {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 24px;
+  }
+</style>
+
 <div class="container py-4">
 
   <!-- Breadcrumb -->
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a class="text-decoration-none text-secondary d-flex align-items-center"
-          href="{{ url_for('main.listings') }}">
+        <a class="text-decoration-none text-secondary d-flex align-items-center" href="{{ url_for('main.listings') }}">
           <i class="bi bi-arrow-left-short fs-4"></i> My Listings
         </a>
       </li>
@@ -19,131 +113,215 @@
     </ol>
   </nav>
 
-  <div class="card shadow-sm">
-    <div class="card-body p-4">
+  <div class="card shadow-sm listing-form-card">
+    <div class="card-body p-4 p-md-5">
 
-      <h4 class="fw-bold mb-4">
-        <i class="bi bi-house-add me-2"></i>{{ title }}
-      </h4>
+      <div class="listing-form-header">
+        <h4 class="fw-bold mb-2">
+          <i class="bi bi-house-add me-2"></i>{{ title }}
+        </h4>
+        <p class="mb-0 text-white-50">
+          Add accurate property details, upload images, and attach supporting documents.
+        </p>
+      </div>
 
-      <form method="POST" novalidate>
+      <form method="POST" enctype="multipart/form-data" novalidate>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
-        <div class="row g-3">
-
-          <!-- Title -->
-          <div class="col-12">
-            <label for="title" class="form-label fw-semibold">Property Title <span class="text-danger">*</span></label>
-            <input type="text" id="title" name="title"
-              class="form-control" value="{{ form.title.data or '' }}"
-              placeholder="e.g. 42 Willow Street Residence" required />
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="bi bi-info-circle text-warning"></i>Property Information
           </div>
 
-          <!-- Address & Suburb -->
-          <div class="col-md-6">
-            <label for="address" class="form-label fw-semibold">Street Address <span class="text-danger">*</span></label>
-            <input type="text" id="address" name="address"
-              class="form-control" value="{{ form.address.data or '' }}"
-              placeholder="e.g. 42 Willow St" required />
+          <div class="row g-3">
+
+            <!-- Title -->
+            <div class="col-12">
+              <label for="title" class="form-label fw-semibold">Property Title <span
+                  class="text-danger">*</span></label>
+              <input type="text" id="title" name="title" class="form-control" value="{{ form.title.data or '' }}"
+                placeholder="e.g. 42 Willow Street Residence" required />
+            </div>
+
+            <!-- Address & Suburb -->
+            <div class="col-md-6">
+              <label for="address" class="form-label fw-semibold">Street Address <span
+                  class="text-danger">*</span></label>
+              <input type="text" id="address" name="address" class="form-control" value="{{ form.address.data or '' }}"
+                placeholder="e.g. 42 Willow St" required />
+            </div>
+            <div class="col-md-6">
+              <label for="suburb" class="form-label fw-semibold">Suburb <span class="text-danger">*</span></label>
+              <input type="text" id="suburb" name="suburb" class="form-control" value="{{ form.suburb.data or '' }}"
+                placeholder="e.g. Northcote" required />
+            </div>
+
+            <!-- Description -->
+            <div class="col-12">
+              <label for="description" class="form-label fw-semibold">Description <span
+                  class="text-danger">*</span></label>
+              <textarea id="description" name="description" class="form-control" rows="4"
+                placeholder="Describe the property..." required>{{ form.description.data or '' }}</textarea>
+            </div>
+
           </div>
-          <div class="col-md-6">
-            <label for="suburb" class="form-label fw-semibold">Suburb <span class="text-danger">*</span></label>
-            <input type="text" id="suburb" name="suburb"
-              class="form-control" value="{{ form.suburb.data or '' }}"
-              placeholder="e.g. Northcote" required />
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="bi bi-cash-stack text-warning"></i>Pricing & Status
           </div>
 
-          <!-- Description -->
-          <div class="col-12">
-            <label for="description" class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
-            <textarea id="description" name="description"
-              class="form-control" rows="4"
-              placeholder="Describe the property..." required>{{ form.description.data or '' }}</textarea>
+          <div class="row g-3">
+
+            <!-- Price & Original Price -->
+            <div class="col-md-6">
+              <label for="price" class="form-label fw-semibold">Asking Price ($) <span
+                  class="text-danger">*</span></label>
+              <input type="number" id="price" name="price" class="form-control" value="{{ form.price.data or '' }}"
+                placeholder="e.g. 1250000" min="0" step="1000" required />
+            </div>
+            <div class="col-md-6">
+              <label for="original_price" class="form-label fw-semibold">Original Price ($) <span
+                  class="text-danger">*</span></label>
+              <input type="number" id="original_price" name="original_price" class="form-control"
+                value="{{ form.original_price.data or '' }}" placeholder="e.g. 1500000" min="0" step="1000" required />
+            </div>
+
+            <!-- Category & Status -->
+            <div class="col-md-6">
+              <label for="category" class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+              <select id="category" name="category" class="form-select" required>
+                <option value="House" {% if form.category.data=='House' %}selected{% endif %}>House</option>
+                <option value="Apartment" {% if form.category.data=='Apartment' %}selected{% endif %}>Apartment</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="status" class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
+              <select id="status" name="status" class="form-select" required>
+                <option value="Active" {% if form.status.data=='Active' %}selected{% endif %}>Active</option>
+                <option value="Under Offer" {% if form.status.data=='Under Offer' %}selected{% endif %}>Under Offer
+                </option>
+                <option value="Sold" {% if form.status.data=='Sold' %}selected{% endif %}>Sold</option>
+                <option value="Withdrawn" {% if form.status.data=='Withdrawn' %}selected{% endif %}>Withdrawn</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="bi bi-grid-3x3-gap text-warning"></i>Property Details
           </div>
 
-          <!-- Price & Original Price -->
-          <div class="col-md-6">
-            <label for="price" class="form-label fw-semibold">Asking Price ($) <span class="text-danger">*</span></label>
-            <input type="number" id="price" name="price"
-              class="form-control" value="{{ form.price.data or '' }}"
-              placeholder="e.g. 1250000" min="0" step="1000" required />
+          <div class="row g-3">
+
+            <!-- Bedrooms, Bathrooms, Car Spaces, Size -->
+            <div class="col-6 col-md-3">
+              <label for="bedrooms" class="form-label fw-semibold">Bedrooms <span class="text-danger">*</span></label>
+              <input type="number" id="bedrooms" name="bedrooms" class="form-control"
+                value="{{ form.bedrooms.data or 0 }}" min="0" required />
+            </div>
+            <div class="col-6 col-md-3">
+              <label for="bathrooms" class="form-label fw-semibold">Bathrooms <span class="text-danger">*</span></label>
+              <input type="number" id="bathrooms" name="bathrooms" class="form-control"
+                value="{{ form.bathrooms.data or 0 }}" min="0" required />
+            </div>
+            <div class="col-6 col-md-3">
+              <label for="car_spaces" class="form-label fw-semibold">Car Spaces <span
+                  class="text-danger">*</span></label>
+              <input type="number" id="car_spaces" name="car_spaces" class="form-control"
+                value="{{ form.car_spaces.data or 0 }}" min="0" required />
+            </div>
+            <div class="col-6 col-md-3">
+              <label for="size_sqft" class="form-label fw-semibold">Size (sq ft) <span
+                  class="text-danger">*</span></label>
+              <input type="number" id="size_sqft" name="size_sqft" class="form-control"
+                value="{{ form.size_sqft.data or 0 }}" min="0" required />
+            </div>
+
+            <!-- Features -->
+            <div class="col-12">
+              <label for="features" class="form-label fw-semibold">Key Features</label>
+              <input type="text" id="features" name="features" class="form-control"
+                value="{{ form.features.data or '' }}" placeholder="e.g. Heated pool, Solar 6.6kW, Ducted heating" />
+              <div class="form-text text-muted">Separate each feature with a comma.</div>
+            </div>
+
           </div>
-          <div class="col-md-6">
-            <label for="original_price" class="form-label fw-semibold">Original Price ($) <span class="text-danger">*</span></label>
-            <input type="number" id="original_price" name="original_price"
-              class="form-control" value="{{ form.original_price.data or '' }}"
-              placeholder="e.g. 1500000" min="0" step="1000" required />
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">
+            <i class="bi bi-images text-warning"></i>Property Images
           </div>
 
-          <!-- Category & Status -->
-          <div class="col-md-6">
-            <label for="category" class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
-            <select id="category" name="category" class="form-select" required>
-              <option value="House" {% if form.category.data == 'House' %}selected{% endif %}>House</option>
-              <option value="Apartment" {% if form.category.data == 'Apartment' %}selected{% endif %}>Apartment</option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label for="status" class="form-label fw-semibold">Status <span class="text-danger">*</span></label>
-            <select id="status" name="status" class="form-select" required>
-              <option value="Active"      {% if form.status.data == 'Active' %}selected{% endif %}>Active</option>
-              <option value="Under Offer" {% if form.status.data == 'Under Offer' %}selected{% endif %}>Under Offer</option>
-              <option value="Sold"        {% if form.status.data == 'Sold' %}selected{% endif %}>Sold</option>
-              <option value="Withdrawn"   {% if form.status.data == 'Withdrawn' %}selected{% endif %}>Withdrawn</option>
-            </select>
-          </div>
+          <div class="image-upload-box">
+            <div class="image-upload-icon">
+              <i class="bi bi-cloud-arrow-up"></i>
+            </div>
 
-          <!-- Bedrooms, Bathrooms, Car Spaces, Size -->
-          <div class="col-6 col-md-3">
-            <label for="bedrooms" class="form-label fw-semibold">Bedrooms <span class="text-danger">*</span></label>
-            <input type="number" id="bedrooms" name="bedrooms"
-              class="form-control" value="{{ form.bedrooms.data or 0 }}"
-              min="0" required />
-          </div>
-          <div class="col-6 col-md-3">
-            <label for="bathrooms" class="form-label fw-semibold">Bathrooms <span class="text-danger">*</span></label>
-            <input type="number" id="bathrooms" name="bathrooms"
-              class="form-control" value="{{ form.bathrooms.data or 0 }}"
-              min="0" required />
-          </div>
-          <div class="col-6 col-md-3">
-            <label for="car_spaces" class="form-label fw-semibold">Car Spaces <span class="text-danger">*</span></label>
-            <input type="number" id="car_spaces" name="car_spaces"
-              class="form-control" value="{{ form.car_spaces.data or 0 }}"
-              min="0" required />
-          </div>
-          <div class="col-6 col-md-3">
-            <label for="size_sqft" class="form-label fw-semibold">Size (sq ft) <span class="text-danger">*</span></label>
-            <input type="number" id="size_sqft" name="size_sqft"
-              class="form-control" value="{{ form.size_sqft.data or 0 }}"
-              min="0" required />
-          </div>
-
-          <!-- Image filename -->
-          <div class="col-12">
-            <label for="image" class="form-label fw-semibold">
-              Image Filename <span class="text-danger">*</span>
+            <label for="images" class="form-label fw-bold d-block mb-2">
+              Upload Property Images <span class="text-danger">*</span>
             </label>
-            <input type="text" id="image" name="image"
-              class="form-control" value="{{ form.image.data or '' }}"
-              placeholder="e.g. property-for-sale-first.jpg" required />
-            <div class="form-text text-muted">
-              Available: property-for-sale-first.jpg, property-for-sale-second.jpg, property-for-sale-third.jpg
+
+            <input type="file" id="images" name="images" class="form-control"
+              accept="image/png,image/jpeg,image/jpg,image/webp" multiple required />
+
+            <div class="form-text text-muted mt-2">
+              Upload maximum 5 images. Accepted formats: JPG, JPEG, PNG, WEBP.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+              <h5 class="fw-bold mb-1">
+                <i class="bi bi-folder2-open me-2 text-warning"></i>Document Vault
+              </h5>
+              <p class="text-muted small mb-0">
+                Upload legal or inspection documents related to this property.
+              </p>
             </div>
           </div>
 
-          <!-- Features -->
-          <div class="col-12">
-            <label for="features" class="form-label fw-semibold">Key Features</label>
-            <input type="text" id="features" name="features"
-              class="form-control" value="{{ form.features.data or '' }}"
-              placeholder="e.g. Heated pool, Solar 6.6kW, Ducted heating" />
-            <div class="form-text text-muted">Separate each feature with a comma.</div>
-          </div>
+          <div class="border rounded-4 p-3 p-md-4 bg-light">
+            <div class="row g-3 align-items-end">
 
+              <div class="col-12 col-md-5">
+                <label for="document_name" class="form-label fw-semibold">
+                  Document Name
+                </label>
+                <input type="text" id="document_name" name="document_name" class="form-control"
+                  placeholder="e.g. Contract of Sale" value="{{ form.document_name.data or '' }}" />
+              </div>
+
+              <div class="col-12 col-md-5">
+                <label for="document_file" class="form-label fw-semibold">
+                  Upload Document
+                </label>
+                <input type="file" id="document_file" name="document_file" class="form-control"
+                  accept=".pdf,.doc,.docx" />
+                <div class="form-text">
+                  Accepted formats: PDF, DOC, DOCX.
+                </div>
+              </div>
+
+              <div class="col-12 col-md-2">
+                <div class="d-grid">
+                  <button type="button" class="btn btn-outline-secondary" disabled>
+                    <i class="bi bi-cloud-arrow-up me-1"></i>Attach
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
 
-        <div class="d-flex gap-3 mt-4">
+        <div class="d-flex gap-3 mt-4 action-bar">
           <button type="submit" class="btn btn-warning fw-semibold px-4">
             <i class="bi bi-save me-1"></i>Save Listing
           </button>
@@ -156,4 +334,6 @@
     </div>
   </div>
 </div>
+
+
 {% endblock %}

@@ -107,7 +107,7 @@
 
             <a href="{{ url_for('main.property_details', property_id=prop.id) }}">
               <img class="best-seller-property-item w-100 card-img-top"
-                src="{{ url_for('static', filename='img/' + prop.image) }}"
+                src="{{ url_for('static', filename='uploads/' + prop.images[0]) }}"
                 alt="{{ prop.title }}"
                 style="height:200px; object-fit:cover;" />
             </a>
