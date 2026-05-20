@@ -74,7 +74,7 @@ class Property:
     car_spaces: int
     size_sqft: int
     seller_id: str
-    image: str
+    images: List[str] = field(default_factory=list)
     features: List[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
 

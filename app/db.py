@@ -55,7 +55,7 @@ def init_db():
             car_spaces INT NOT NULL,
             size_sqft INT NOT NULL,
             seller_id VARCHAR(10) NOT NULL,
-            image VARCHAR(255) NOT NULL,
+            image TEXT NOT NULL,
             features TEXT,
             created_at DATETIME,
             FOREIGN KEY (seller_id) REFERENCES users(id)
@@ -101,6 +101,20 @@ def init_db():
         )
     """)
 
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS documents (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            property_id VARCHAR(10) NOT NULL,
+            document_name VARCHAR(255) NOT NULL,
+            file_name VARCHAR(255) NOT NULL,
+            file_size VARCHAR(50),
+            file_type VARCHAR(50) DEFAULT 'PDF',
+            uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (property_id) REFERENCES properties(id)
+                ON DELETE CASCADE
+        )
+    """)
+
     conn.commit()
     cur.close()
     conn.close()
@@ -120,7 +134,9 @@ def row_to_user(row):
 
 
 def row_to_property(row):
+    images = row[14].split(",") if row[14] else []
     features = row[15].split(",") if row[15] else []
+
     return Property(
         id=row[0],
         title=row[1],
@@ -136,7 +152,7 @@ def row_to_property(row):
         car_spaces=row[11],
         size_sqft=row[12],
         seller_id=row[13],
-        image=row[14],
+        images=images,
         features=features,
         created_at=row[16] or datetime.now()
     )
@@ -236,6 +252,7 @@ def check_user_login(username, password):
 
     return None
 
+
 def add_user(user):
     conn = get_connection()
     cur = conn.cursor()
@@ -325,7 +342,7 @@ def add_property(prop):
         prop.car_spaces,
         prop.size_sqft,
         prop.seller_id,
-        prop.image,
+        ",".join(prop.images),
         ",".join(prop.features),
         prop.created_at
     ))
@@ -370,7 +387,7 @@ def update_property(property_id, updated):
         updated.car_spaces,
         updated.size_sqft,
         updated.seller_id,
-        updated.image,
+        ",".join(updated.images),
         ",".join(updated.features),
         updated.created_at,
         property_id
@@ -386,10 +403,22 @@ def update_property(property_id, updated):
 def delete_property(property_id):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("DELETE FROM properties WHERE id=%s", (property_id,))
-    conn.commit()
-    cur.close()
-    conn.close()
+
+    try:
+        cur.execute("DELETE FROM bookmarks WHERE property_id=%s", (property_id,))
+        cur.execute("DELETE FROM enquiries WHERE property_id=%s", (property_id,))
+        cur.execute("DELETE FROM offers WHERE property_id=%s", (property_id,))
+        cur.execute("DELETE FROM properties WHERE id=%s", (property_id,))
+
+        conn.commit()
+
+    except Exception as e:
+        conn.rollback()
+        raise e
+
+    finally:
+        cur.close()
+        conn.close()
 
 
 def get_next_property_id():
@@ -422,6 +451,48 @@ def search_properties(query='', category=None, min_price=None, max_price=None, m
         results = [p for p in results if p.bedrooms >= min_bedrooms]
 
     return results
+
+
+# DOCUMENTS
+
+def get_documents_for_property(property_id):
+    conn = get_connection()
+    cur = conn.cursor(dictionary=True)
+
+    cur.execute("""
+        SELECT *
+        FROM documents
+        WHERE property_id = %s
+        ORDER BY uploaded_at DESC
+    """, (property_id,))
+
+    documents = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return documents
+
+
+def add_document(property_id, document_name, file_name, file_size=None, file_type="PDF"):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        INSERT INTO documents
+        (property_id, document_name, file_name, file_size, file_type)
+        VALUES (%s, %s, %s, %s, %s)
+    """, (
+        property_id,
+        document_name,
+        file_name,
+        file_size,
+        file_type
+    ))
+
+    conn.commit()
+    cur.close()
+    conn.close()
 
 
 # BOOKMARKS
