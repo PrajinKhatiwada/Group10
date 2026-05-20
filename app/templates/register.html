@@ -1,74 +1,147 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block title %}Register – Property Sales{% endblock
+%} {% block content %}
+<div class="register-container py-5">
+  <span class="square square-tl"></span>
+  <span class="square square-tr"></span>
+  <span class="square square-bl"></span>
+  <span class="square square-br"></span>
+  <span class="star star1"></span>
+  <span class="star star2"></span>
+  <span class="star star3"></span>
+  <span class="star star4"></span>
 
-{% block title %}Register – Property Sales{% endblock %}
-
-{% block content %}
-<div class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-md-6">
-
+    <div class="register-form-wrapper col-md-6">
       <div class="card shadow-sm">
         <div class="card-body p-4">
-
           <div class="text-center mb-4">
-            <img src="{{ url_for('static', filename='img/property_sales_logo.png') }}"
-              alt="Logo" width="80" height="60" />
+            <div class="login-logo-wrapper">
+              <img
+                src="{{ url_for('static', filename='img/property_sales_logo.png') }}"
+                alt="Logo"
+                width="120"
+                height="100"
+              />
+            </div>
             <h4 class="mt-2 fw-bold">Create an Account</h4>
-            <p class="text-muted small">Join Property Sales to browse, save, and interact with listings.</p>
+            <p class="text-muted small">
+              Join Property Sales to browse, save, and interact with listings.
+            </p>
           </div>
 
-          <form method="POST" action="{{ url_for('main.register') }}" novalidate>
+          <form
+            method="POST"
+            action="{{ url_for('main.register') }}"
+            novalidate
+          >
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
             <div class="row g-3">
-
               <div class="col-12">
-                <label for="username" class="form-label fw-semibold">Username</label>
-                <input type="text" id="username" name="username"
-                  class="form-control" placeholder="Choose a username" required minlength="3" />
+                <label for="username" class="form-label fw-semibold"
+                  >Username</label
+                >
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="form-control"
+                  placeholder="Choose a username"
+                  required
+                  minlength="3"
+                />
               </div>
 
               <div class="col-12">
-                <label for="password" class="form-label fw-semibold">Password</label>
-                <input type="password" id="password" name="password"
-                  class="form-control" placeholder="At least 6 characters" required minlength="6" />
+                <label for="password" class="form-label fw-semibold"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control"
+                  placeholder="At least 6 characters"
+                  required
+                  minlength="6"
+                />
               </div>
 
               <div class="col-12">
-                <label for="email" class="form-label fw-semibold">Email Address</label>
-                <input type="email" id="email" name="email"
-                  class="form-control" placeholder="you@example.com" required />
+                <label for="email" class="form-label fw-semibold"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-control"
+                  placeholder="you@example.com"
+                  required
+                />
               </div>
 
               <div class="col-md-6">
-                <label for="firstname" class="form-label fw-semibold">First Name</label>
-                <input type="text" id="firstname" name="firstname"
-                  class="form-control" placeholder="First name" required />
+                <label for="firstname" class="form-label fw-semibold"
+                  >First Name</label
+                >
+                <input
+                  type="text"
+                  id="firstname"
+                  name="firstname"
+                  class="form-control"
+                  placeholder="First name"
+                  required
+                />
               </div>
 
               <div class="col-md-6">
-                <label for="surname" class="form-label fw-semibold">Surname</label>
-                <input type="text" id="surname" name="surname"
-                  class="form-control" placeholder="Surname" required />
+                <label for="surname" class="form-label fw-semibold"
+                  >Surname</label
+                >
+                <input
+                  type="text"
+                  id="surname"
+                  name="surname"
+                  class="form-control"
+                  placeholder="Surname"
+                  required
+                />
               </div>
 
               <div class="col-12">
-                <label for="phone" class="form-label fw-semibold">Phone Number</label>
-                <input type="text" id="phone" name="phone"
-                  class="form-control" placeholder="e.g. 0412 345 678" required />
+                <label for="phone" class="form-label fw-semibold"
+                  >Phone Number</label
+                >
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  class="form-control"
+                  placeholder="e.g. 0412 345 678"
+                  required
+                />
               </div>
 
               <div class="col-12">
-                <label for="role" class="form-label fw-semibold">Account Type</label>
+                <label for="role" class="form-label fw-semibold"
+                  >Account Type</label
+                >
                 <select id="role" name="role" class="form-select">
-                  <option value="buyer">Buyer / Tenant – Browse and interact with listings</option>
-                  <option value="seller">Seller / Agent – List and manage properties</option>
+                  <option value="buyer">
+                    Buyer / Tenant – Browse and interact with listings
+                  </option>
+                  <option value="seller">
+                    Seller / Agent – List and manage properties
+                  </option>
                 </select>
               </div>
-
             </div>
 
-            <button type="submit" class="btn btn-warning w-100 fw-semibold mt-4">
+            <button
+              type="submit"
+              class="btn btn-warning w-100 fw-semibold mt-4"
+            >
               <i class="bi bi-person-plus me-1"></i>Create Account
             </button>
           </form>
@@ -76,12 +149,14 @@
           <hr />
           <p class="text-center text-muted small mb-0">
             Already have an account?
-            <a href="{{ url_for('main.login') }}" class="text-warning fw-semibold">Login here</a>
+            <a
+              href="{{ url_for('main.login') }}"
+              class="text-warning fw-semibold"
+              >Login here</a
+            >
           </p>
-
         </div>
       </div>
-
     </div>
   </div>
 </div>

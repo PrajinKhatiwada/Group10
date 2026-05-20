@@ -1,18 +1,16 @@
-{% extends 'base.html' %}
-
-{% block title %}Saved Properties – Property Sales{% endblock %}
-{% block body_class %}body-bookmarked{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}Saved Properties – Property Sales{%
+endblock %} {% block body_class %}body-bookmarked{% endblock %} {% block content
+%}
 <div class="container pt-4 pb-5">
-
   <!-- Breadcrumb -->
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a class="text-decoration-none text-secondary d-flex align-items-center"
-          href="{{ url_for('main.home') }}">
-          <i class="bi bi-arrow-left-short fs-4"></i> Home
+        <a
+          class="text-decoration-none text-secondary d-flex align-items-center"
+          href="{{ url_for('main.home') }}"
+        >
+          Home
         </a>
       </li>
       <li class="breadcrumb-item active">Saved Properties</li>
@@ -20,12 +18,15 @@
   </nav>
 
   <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-4 listed-property-card-box">
+  <div
+    class="d-flex justify-content-between align-items-center mb-4 listed-property-card-box"
+  >
     <div>
       <h3>Saved Properties</h3>
       <p class="text-muted mb-0">
         Your shortlisted properties with personal notes.
-        <strong>{{ items|length }}</strong> propert{{ 'y' if items|length == 1 else 'ies' }} saved.
+        <strong>{{ items|length }}</strong> propert{{ 'y' if items|length == 1
+        else 'ies' }} saved.
       </p>
     </div>
   </div>
@@ -35,22 +36,26 @@
     {% for bm, prop in items %}
     <div class="col-12 col-sm-6 col-lg-4">
       <div class="card h-100 p-0 shadow-sm">
-
         <a href="{{ url_for('main.property_details', property_id=prop.id) }}">
-          <img class="best-seller-property-item w-100 card-img-top"
+          <img
+            class="best-seller-property-item w-100 card-img-top"
             src="{{ url_for('static', filename='img/' + prop.image) }}"
             alt="{{ prop.title }}"
-            style="height:200px; object-fit:cover;" />
+            style="height: 200px; object-fit: cover"
+          />
         </a>
 
         <div class="card-body">
-
-          <div class="d-flex justify-content-between align-items-start flex-wrap mb-1">
+          <div
+            class="d-flex justify-content-between align-items-center flex-wrap mb-1"
+          >
             <p class="card-text fs-5 fw-semibold text-success m-0">
               ${{ '{:,.0f}'.format(prop.price) }}
             </p>
             {% if prop.original_price > prop.price %}
-            <p class="card-text text-danger text-decoration-line-through m-0">
+            <p
+              class="card-text text-danger fw-semibold text-decoration-line-through m-0"
+            >
               ${{ '{:,.0f}'.format(prop.original_price) }}
             </p>
             {% endif %}
@@ -58,7 +63,8 @@
 
           <h5 class="card-title mb-1">{{ prop.title }}</h5>
           <p class="text-muted small mb-2">
-            <i class="bi bi-geo-alt me-1"></i>{{ prop.address }}, {{ prop.suburb }}
+            <i class="bi bi-geo-alt me-1"></i>{{ prop.address }}, {{ prop.suburb
+            }}
           </p>
 
           <div class="d-flex gap-3 text-muted small mb-2">
@@ -67,58 +73,71 @@
             <span><i class="fa fa-car me-1"></i>{{ prop.car_spaces }}</span>
           </div>
 
-          <div class="mb-2">
-            <span class="card-body-property-status
-              {% if prop.status.value == 'Active' %}
-              {% elif prop.status.value == 'Under Offer' %}bg-warning text-dark
-              {% elif prop.status.value == 'Sold' %}bg-danger
-              {% else %}bg-secondary{% endif %}">
+          <div class="my-3">
+            <span
+              class="card-body-property-status {% if prop.status.value == 'Active' %} {% elif prop.status.value == 'Under Offer' %}bg-warning text-dark {% elif prop.status.value == 'Sold' %}bg-danger {% else %}bg-secondary{% endif %}"
+            >
               {{ prop.status.value }}
             </span>
           </div>
 
-          <div class="d-flex gap-2 mb-3">
-            <form method="POST"
-              action="{{ url_for('main.remove_bookmark', property_id=prop.id) }}">
-              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+          <div class="d-flex gap-2 justify-content-end mb-3">
+            <form
+              method="POST"
+              action="{{ url_for('main.remove_bookmark', property_id=prop.id) }}"
+            >
+              <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+              />
               <button type="submit" class="btn btn-danger btn-sm">
-                <i class="bi bi-bookmark-x me-1"></i>Remove
+                <i class="bi bi-trash3-fill me-2"></i>Remove
               </button>
             </form>
-            <a href="{{ url_for('main.property_details', property_id=prop.id) }}"
-              class="btn btn-outline-warning text-dark btn-sm">
+            <a
+              href="{{ url_for('main.property_details', property_id=prop.id) }}"
+              class="btn btn-warning btn-sm"
+            >
               <i class="bi bi-eye me-1"></i>View
             </a>
           </div>
 
           <!-- Notes section -->
-          <span class="divider-of-note"></span>
+          <span class="divider-of-note my-2"></span>
 
-          <p class="fw-semibold small mb-1">
+          <p class="fw-semibold small my-2">
             <i class="bi bi-pencil me-1"></i>My Notes
           </p>
 
           {% if bm.notes %}
-          <div class="alert alert-warning small py-2 mb-2" role="alert">
+          <div class="alert alert-warning small py-2 my-3" role="alert">
             {{ bm.notes }}
           </div>
           {% else %}
-          <p class="text-muted small mb-2">No notes yet.</p>
+          <p class="text-muted small my-2">No notes yet.</p>
           {% endif %}
 
           <!-- Edit notes -->
-          <form method="POST"
-            action="{{ url_for('main.update_bookmark_notes', property_id=prop.id) }}">
+          <form
+            method="POST"
+            action="{{ url_for('main.update_bookmark_notes', property_id=prop.id) }}"
+          >
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-            <div class="mb-2">
-              <textarea name="notes" class="form-control form-control-sm" rows="2"
-                placeholder="Add your personal notes...">{{ bm.notes }}</textarea>
+            <div class="my-3">
+              <textarea
+                name="notes"
+                class="form-control form-control-sm"
+                rows="2"
+                placeholder="Add your personal notes..."
+              >
+{{ bm.notes }}</textarea
+              >
             </div>
-            <button type="submit" class="btn btn-outline-secondary btn-sm w-100">
+            <button type="submit" class="btn btn-primary btn-sm w-100">
               <i class="bi bi-save me-1"></i>Save Notes
             </button>
           </form>
-
         </div>
       </div>
     </div>
@@ -129,12 +148,13 @@
   <div class="text-center py-5">
     <i class="bi bi-bookmark display-4 text-muted"></i>
     <h5 class="mt-3 text-muted">No saved properties yet.</h5>
-    <p class="text-muted">Browse properties and click the bookmark icon to save them here.</p>
+    <p class="text-muted">
+      Browse properties and click the bookmark icon to save them here.
+    </p>
     <a href="{{ url_for('main.home') }}" class="btn btn-warning mt-2">
       <i class="bi bi-house me-1"></i>Browse Properties
     </a>
   </div>
   {% endif %}
-
 </div>
 {% endblock %}
