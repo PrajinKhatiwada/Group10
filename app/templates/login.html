@@ -1,19 +1,28 @@
-{% extends 'base.html' %}
-{% import 'bootstrap5/form.html' as wtf %}
+{% extends 'base.html' %} {% import 'bootstrap5/form.html' as wtf %} {% block
+title %}Login – Property Sales{% endblock %} {% block content %}
+<div class="login-container py-5">
+  <span class="square square-tl"></span>
+  <span class="square square-tr"></span>
+  <span class="square square-bl"></span>
+  <span class="square square-br"></span>
+  <span class="star star1"></span>
+  <span class="star star2"></span>
+  <span class="star star3"></span>
+  <span class="star star4"></span>
 
-{% block title %}Login – Property Sales{% endblock %}
-
-{% block content %}
-<div class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-md-5">
-
+    <div class="login-form-wrapper col-md-5">
       <div class="card shadow-sm">
         <div class="card-body p-4">
-
           <div class="text-center mb-4">
-            <img src="{{ url_for('static', filename='img/property_sales_logo.png') }}"
-              alt="Logo" width="80" height="60" />
+            <div class="login-logo-wrapper">
+              <img
+                src="{{ url_for('static', filename='img/property_sales_logo.png') }}"
+                alt="Logo"
+                width="120"
+                height="100"
+              />
+            </div>
             <h4 class="mt-2 fw-bold">Welcome Back</h4>
             <p class="text-muted small">Log in to access your account.</p>
           </div>
@@ -22,15 +31,31 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
             <div class="mb-3">
-              <label for="username" class="form-label fw-semibold">Username</label>
-              <input type="text" id="username" name="username"
-                class="form-control" placeholder="Enter your username" required />
+              <label for="username" class="form-label fw-semibold"
+                >Username</label
+              >
+              <input
+                type="text"
+                id="username"
+                name="username"
+                class="form-control"
+                placeholder="Enter your username"
+                required
+              />
             </div>
 
             <div class="mb-3">
-              <label for="password" class="form-label fw-semibold">Password</label>
-              <input type="password" id="password" name="password"
-                class="form-control" placeholder="Enter your password" required />
+              <label for="password" class="form-label fw-semibold"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Enter your password"
+                required
+              />
             </div>
 
             <button type="submit" class="btn btn-warning w-100 fw-semibold">
@@ -42,14 +67,23 @@
 
           <p class="text-center text-muted small mb-2">
             Don't have an account?
-            <a href="{{ url_for('main.register') }}" class="text-warning fw-semibold">
+            <a
+              href="{{ url_for('main.register') }}"
+              class="text-warning fw-semibold"
+            >
               Register here
             </a>
           </p>
 
+          <!-- Demo credentials hint -->
+          <div class="alert alert-light border small mt-3">
+            <strong>Demo accounts:</strong><br />
+            Admin: <code>admin1</code> / <code>admin123</code><br />
+            Seller: <code>seller1</code> / <code>seller123</code><br />
+            Buyer: <code>buyer1</code> / <code>buyer123</code>
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
