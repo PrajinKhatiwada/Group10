@@ -6,10 +6,7 @@ endblock %} {% block body_class %}body-bookmarked{% endblock %} {% block content
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a
-          class="text-decoration-none text-secondary d-flex align-items-center"
-          href="{{ url_for('main.home') }}"
-        >
+        <a class="text-decoration-none text-secondary d-flex align-items-center" href="{{ url_for('main.home') }}">
           Home
         </a>
       </li>
@@ -18,9 +15,7 @@ endblock %} {% block body_class %}body-bookmarked{% endblock %} {% block content
   </nav>
 
   <!-- Header -->
-  <div
-    class="d-flex justify-content-between align-items-center mb-4 listed-property-card-box"
-  >
+  <div class="d-flex justify-content-between align-items-center mb-4 listed-property-card-box">
     <div>
       <h3>Saved Properties</h3>
       <p class="text-muted mb-0">
@@ -37,25 +32,19 @@ endblock %} {% block body_class %}body-bookmarked{% endblock %} {% block content
     <div class="col-12 col-sm-6 col-lg-4">
       <div class="card h-100 p-0 shadow-sm">
         <a href="{{ url_for('main.property_details', property_id=prop.id) }}">
-          <img
-            class="best-seller-property-item w-100 card-img-top"
-            src="{{ url_for('static', filename='img/' + prop.image) }}"
-            alt="{{ prop.title }}"
-            style="height: 200px; object-fit: cover"
-          />
+          <img class="best-seller-property-item w-100 card-img-top"
+            src="{{ url_for('static', filename='uploads/' + prop.images[0]) if prop.images and prop.images|length > 0 and prop.images[0] else url_for('static', filename='img/default.png') }}"
+            onerror="this.src='/static/img/default.png'" alt="{{ prop.title }}"
+            style="height: 200px; object-fit: cover" />
         </a>
 
         <div class="card-body">
-          <div
-            class="d-flex justify-content-between align-items-center flex-wrap mb-1"
-          >
+          <div class="d-flex justify-content-between align-items-center flex-wrap mb-1">
             <p class="card-text fs-5 fw-semibold text-success m-0">
               ${{ '{:,.0f}'.format(prop.price) }}
             </p>
             {% if prop.original_price > prop.price %}
-            <p
-              class="card-text text-danger fw-semibold text-decoration-line-through m-0"
-            >
+            <p class="card-text text-danger fw-semibold text-decoration-line-through m-0">
               ${{ '{:,.0f}'.format(prop.original_price) }}
             </p>
             {% endif %}
@@ -75,30 +64,19 @@ endblock %} {% block body_class %}body-bookmarked{% endblock %} {% block content
 
           <div class="my-3">
             <span
-              class="card-body-property-status {% if prop.status.value == 'Active' %} {% elif prop.status.value == 'Under Offer' %}bg-warning text-dark {% elif prop.status.value == 'Sold' %}bg-danger {% else %}bg-secondary{% endif %}"
-            >
+              class="card-body-property-status {% if prop.status.value == 'Active' %} {% elif prop.status.value == 'Under Offer' %}bg-warning text-dark {% elif prop.status.value == 'Sold' %}bg-danger {% else %}bg-secondary{% endif %}">
               {{ prop.status.value }}
             </span>
           </div>
 
           <div class="d-flex gap-2 justify-content-end mb-3">
-            <form
-              method="POST"
-              action="{{ url_for('main.remove_bookmark', property_id=prop.id) }}"
-            >
-              <input
-                type="hidden"
-                name="csrf_token"
-                value="{{ csrf_token() }}"
-              />
+            <form method="POST" action="{{ url_for('main.remove_bookmark', property_id=prop.id) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
               <button type="submit" class="btn btn-danger btn-sm">
                 <i class="bi bi-trash3-fill me-2"></i>Remove
               </button>
             </form>
-            <a
-              href="{{ url_for('main.property_details', property_id=prop.id) }}"
-              class="btn btn-warning btn-sm"
-            >
+            <a href="{{ url_for('main.property_details', property_id=prop.id) }}" class="btn btn-warning btn-sm">
               <i class="bi bi-eye me-1"></i>View
             </a>
           </div>
@@ -119,20 +97,12 @@ endblock %} {% block body_class %}body-bookmarked{% endblock %} {% block content
           {% endif %}
 
           <!-- Edit notes -->
-          <form
-            method="POST"
-            action="{{ url_for('main.update_bookmark_notes', property_id=prop.id) }}"
-          >
+          <form method="POST" action="{{ url_for('main.update_bookmark_notes', property_id=prop.id) }}">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <div class="my-3">
-              <textarea
-                name="notes"
-                class="form-control form-control-sm"
-                rows="2"
-                placeholder="Add your personal notes..."
-              >
-{{ bm.notes }}</textarea
-              >
+              <textarea name="notes" class="form-control form-control-sm" rows="2"
+                placeholder="Add your personal notes...">
+{{ bm.notes }}</textarea>
             </div>
             <button type="submit" class="btn btn-primary btn-sm w-100">
               <i class="bi bi-save me-1"></i>Save Notes
