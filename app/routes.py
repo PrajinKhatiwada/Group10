@@ -19,8 +19,22 @@ main = Blueprint('main', __name__)
 
 def get_current_user():
     uid = session.get('user_id')
+
+    if uid == "ADMIN001":
+        return User(
+            id="ADMIN001",
+            username="admin",
+            password_hash="",
+            email="admin@propertysales.com",
+            firstname="System",
+            surname="Admin",
+            phone="0000000000",
+            role=UserRole.ADMIN
+        )
+
     if uid:
         return db.get_user_by_id(uid)
+
     return None
 
 

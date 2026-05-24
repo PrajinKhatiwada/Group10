@@ -71,9 +71,14 @@
   {% for prop in props %}
 
   <div class="listed-property-card">
+   
 
-    <img src="{{ url_for('static', filename='uploads/' + prop.images[0]) }}" class="listed-property-img"
-      alt="{{ prop.title }}" />
+
+
+    <img
+      src="{{ url_for('static', filename='uploads/' + prop.images[0]) if prop.images else url_for('static', filename='img/default.png') }}"
+       onerror="this.src='/static/img/default.png'" alt="{{ prop.title }}"
+      class="listed-property-img" alt="{{ prop.title }}" />
 
     <div class="flex-grow-1">
       <span class="listed-property-status
