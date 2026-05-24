@@ -7,25 +7,24 @@ import os
 def create_app():
     app = Flask(__name__)
 
-    app.secret_key = os.getenv("SECRET_KEY", "PropertySalesSecretKey2024!")
+    app.secret_key = os.getenv("SECRET_KEY", "7777777omnamoshivaya7777777")
 
     app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST", "localhost")
     app.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT", 3306))
     app.config["MYSQL_USER"] = os.getenv("MYSQL_USER", "root")
-
-
     app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD", "9814073971")
-
     app.config["MYSQL_DATABASE"] = os.getenv("MYSQL_DATABASE", "property_sales")
+    
+    app.config["UPLOAD_FOLDER"] = os.path.join(app.root_path, "static", "uploads")
+    app.config["DOCUMENT_UPLOAD_FOLDER"] = os.path.join(app.root_path, "static", "documents")
+
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+    os.makedirs(app.config["DOCUMENT_UPLOAD_FOLDER"], exist_ok=True)
 
     CSRFProtect(app)
     Bootstrap5(app)
 
-    from . import db
-    with app.app_context():
-        db.init_db()
-
-    from .views import main
+    from .routes import main
     app.register_blueprint(main)
 
     @app.errorhandler(404)

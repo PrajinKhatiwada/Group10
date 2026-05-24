@@ -21,7 +21,6 @@
       </nav>
 
       <!-- Images -->
-      {% if prop.images and prop.images|length > 0 %}
       <div class="row g-3">
 
         <!-- Main Image Slider -->
@@ -29,15 +28,29 @@
           <div id="propertyImageSlider" class="carousel slide" data-bs-ride="carousel">
 
             <div class="carousel-inner rounded-4 overflow-hidden">
+
+              {% if prop.images and prop.images|length > 0 %}
+
               {% for image in prop.images %}
               <div class="carousel-item {% if loop.first %}active{% endif %}">
                 <img src="{{ url_for('static', filename='uploads/' + image) }}"
+                  onerror="this.src='/static/img/default.png'"
                   class="w-100 property-details-card-img-main best-seller-property-item" alt="{{ prop.title }}" />
               </div>
               {% endfor %}
+
+              {% else %}
+
+              <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='img/default.png') }}"
+                  class="w-100 property-details-card-img-main best-seller-property-item" alt="{{ prop.title }}" />
+              </div>
+
+              {% endif %}
+
             </div>
 
-            {% if prop.images|length > 1 %}
+            {% if prop.images and prop.images|length > 1 %}
             <button class="carousel-control-prev" type="button" data-bs-target="#propertyImageSlider"
               data-bs-slide="prev">
               <span class="carousel-control-prev-icon"></span>
@@ -54,17 +67,21 @@
 
         <!-- Side Images -->
         <div class="col-lg-4 d-flex flex-column gap-3">
+
           <img
-            src="{{ url_for('static', filename='uploads/' + (prop.images[1] if prop.images|length > 1 else prop.images[0])) }}"
+            src="{{ url_for('static', filename='uploads/' + (prop.images[1] if prop.images and prop.images|length > 1 else (prop.images[0] if prop.images else ''))) }}"
+            onerror="this.src='/static/img/default.png'"
             class="property-details-side-img w-100" alt="{{ prop.title }}" />
 
           <img
-            src="{{ url_for('static', filename='uploads/' + (prop.images[2] if prop.images|length > 2 else prop.images[0])) }}"
+            src="{{ url_for('static', filename='uploads/' + (prop.images[2] if prop.images and prop.images|length > 2 else (prop.images[0] if prop.images else ''))) }}"
+            onerror="this.src='/static/img/default.png'"
             class="property-details-side-img w-100" alt="{{ prop.title }}" />
+
         </div>
 
       </div>
-      {% endif %}
+      
 
       <div class="row mt-4">
 
