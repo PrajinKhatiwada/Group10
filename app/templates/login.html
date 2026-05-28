@@ -23,7 +23,7 @@ title %}Login – Property Sales{% endblock %} {% block content %}
             <p class="text-muted small">Log in to access your account.</p>
           </div>
 
-          <form method="POST" action="{{ url_for('main.login') }}" novalidate>
+          <form method="POST" action="{{ url_for('main.login') }}">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
             <div class="mb-3">
