@@ -501,10 +501,15 @@ def edit_listing(property_id):
         stat = PropertyStatus(form.status.data)
         features = [f.strip() for f in form.features.data.split(',') if f.strip()]
 
-        uploaded_images = save_property_images(request.files.getlist('images'),form.title.data)
-
-        if not uploaded_images:
+        new_images = save_property_images(request.files.getlist('images'), form.title.data)
+        if new_images:
+            uploaded_images = prop.images + new_images
+        else:
             uploaded_images = prop.images
+        if len(uploaded_images) > 5:
+            flash('Maximum 5 images allowed.', 'error')
+            return render_template('property_form.html',form=form,title='Edit Listing',prop=prop)
+            
 
         updated = Property(
             id=property_id,
