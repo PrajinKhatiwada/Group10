@@ -470,7 +470,8 @@ def new_listing():
 
         flash('Listing created successfully!', 'message')
         return redirect(url_for('main.listings'))
-
+    
+    flash('Listing was not created!', 'message')
     return render_template('property_form.html', form=form, title='New Listing')
 
 
