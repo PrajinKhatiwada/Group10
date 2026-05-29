@@ -125,7 +125,7 @@
         </p>
       </div>
 
-      <form method="POST" enctype="multipart/form-data" novalidate>
+      <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
         <div class="form-section">
@@ -179,13 +179,13 @@
               <label for="price" class="form-label fw-semibold">Asking Price ($) <span
                   class="text-danger">*</span></label>
               <input type="number" id="price" name="price" class="form-control" value="{{ form.price.data or '' }}"
-                placeholder="e.g. 1250000" min="0" step="1000" required />
+                placeholder="e.g. 1250000" min="0" required />
             </div>
             <div class="col-md-6">
               <label for="original_price" class="form-label fw-semibold">Original Price ($) <span
                   class="text-danger">*</span></label>
               <input type="number" id="original_price" name="original_price" class="form-control"
-                value="{{ form.original_price.data or '' }}" placeholder="e.g. 1500000" min="0" step="1000" required />
+                value="{{ form.original_price.data or '' }}" placeholder="e.g. 1500000" min="0" required />
             </div>
 
             <!-- Category & Status -->
@@ -257,82 +257,98 @@
             <i class="bi bi-images text-warning"></i>Property Images
           </div>
 
-          <div class="image-upload-box">
+          {% if property and property.images %}
+          <p class="fw-semibold mb-2">Previously Uploaded Images</p>
+
+          <div class="image-preview-grid mb-3">
+            {% for image in property.images %}
+            <img src="{{ url_for('static', filename='uploads/' ~ image) }}" alt="Property image">
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% set image_count = property.images|length if property and property.images else 0 %}
+
+          {% if image_count < 5 %} <div class="image-upload-box">
             <div class="image-upload-icon">
               <i class="bi bi-cloud-arrow-up"></i>
             </div>
 
             <label for="images" class="form-label fw-bold d-block mb-2">
-              Upload Property Images <span class="text-danger">*</span>
+              Add More Property Images
             </label>
 
             <input type="file" id="images" name="images" class="form-control"
-              accept="image/png,image/jpeg,image/jpg,image/webp" multiple required />
+              accept="image/png,image/jpeg,image/jpg,image/webp" multiple>
 
             <div class="form-text text-muted mt-2">
-              Upload maximum 5 images. Accepted formats: JPG, JPEG, PNG, WEBP.
+              You already have {{ image_count }} image(s). You can upload {{ 5 - image_count }} more.
             </div>
-          </div>
         </div>
-
-        <div class="form-section">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <div>
-              <h5 class="fw-bold mb-1">
-                <i class="bi bi-folder2-open me-2 text-warning"></i>Document Vault
-              </h5>
-              <p class="text-muted small mb-0">
-                Upload legal or inspection documents related to this property.
-              </p>
-            </div>
-          </div>
-
-          <div class="border rounded-4 p-3 p-md-4 bg-light">
-            <div class="row g-3 align-items-start">
-
-              <div class="col-12 col-md-5">
-                <label for="document_name" class="form-label fw-semibold">
-                  Document Name
-                </label>
-                <input type="text" id="document_name" name="document_name" class="form-control"
-                  placeholder="e.g. Contract of Sale" value="{{ form.document_name.data or '' }}" />
-              </div>
-
-              <div class="col-12 col-md-5">
-                <label for="document_file" class="form-label fw-semibold">
-                  Upload Document
-                </label>
-                <input type="file" id="document_file" name="document_file" class="form-control"
-                  accept=".pdf,.doc,.docx" />
-                <div class="form-text">
-                  Accepted formats: PDF, DOC, DOCX.
-                </div>
-              </div>
-
-              <div class="col-12 col-md-2 align-self-center">
-                <div class="d-grid">
-                  <button type="button" class="btn btn-outline-secondary" disabled>
-                    <i class="bi bi-cloud-arrow-up me-1"></i>Attach
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </div>
+        {% else %}
+        <div class="alert alert-info mb-0">
+          Maximum 5 images already uploaded. No more image upload allowed.
         </div>
-
-        <div class="d-flex gap-3 mt-4 action-bar">
-          <button type="submit" class="btn btn-warning fw-semibold px-4">
-            <i class="bi bi-save me-1"></i>Save Listing
-          </button>
-          <a href="{{ url_for('main.listings') }}" class="btn btn-outline-secondary">
-            Cancel
-          </a>
-        </div>
-
-      </form>
+        {% endif %}
     </div>
+
+    <div class="form-section">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+          <h5 class="fw-bold mb-1">
+            <i class="bi bi-folder2-open me-2 text-warning"></i>Document Vault
+          </h5>
+          <p class="text-muted small mb-0">
+            Upload legal or inspection documents related to this property.
+          </p>
+        </div>
+      </div>
+
+      <div class="border rounded-4 p-3 p-md-4 bg-light">
+        <div class="row g-3 align-items-end">
+
+          <div class="col-12 col-md-5">
+            <label for="document_name" class="form-label fw-semibold">
+              Document Name
+            </label>
+            <input type="text" id="document_name" name="document_name" class="form-control"
+              placeholder="e.g. Contract of Sale" value="{{ form.document_name.data or '' }}" />
+          </div>
+
+          <div class="col-12 col-md-5">
+            <label for="document_file" class="form-label fw-semibold">
+              Upload Document
+            </label>
+            <input type="file" id="document_file" name="document_file" class="form-control" accept=".pdf,.doc,.docx" />
+            <div class="form-text">
+              Accepted formats: PDF, DOC, DOCX.
+            </div>
+          </div>
+
+          <div class="col-12 col-md-2">
+            <div class="d-grid">
+              <button type="button" class="btn btn-outline-secondary" disabled>
+                <i class="bi bi-cloud-arrow-up me-1"></i>Attach
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex gap-3 mt-4 action-bar">
+      <button type="submit" class="btn btn-warning fw-semibold px-4">
+        <i class="bi bi-save me-1"></i>Save Listing
+      </button>
+      <a href="{{ url_for('main.listings') }}" class="btn btn-outline-secondary">
+        Cancel
+      </a>
+    </div>
+
+    </form>
   </div>
+</div>
 </div>
 
 

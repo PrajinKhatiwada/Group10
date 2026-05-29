@@ -115,7 +115,7 @@ class PropertyForm(FlaskForm):
     images = MultipleFileField(
         'Upload Property Images',
         validators=[
-            InputRequired(),
+            Optional(),
             FileAllowed(
                 ['jpg', 'jpeg', 'png', 'webp'],
                 'Only JPG, JPEG, PNG, and WEBP images are allowed.'
@@ -148,10 +148,6 @@ class PropertyForm(FlaskForm):
 
     def validate_images(self, field):
         uploaded_images = [file for file in field.data if file and file.filename]
-
-        if len(uploaded_images) == 0:
-            raise ValidationError('Please upload at least one property image.')
-
         if len(uploaded_images) > 5:
             raise ValidationError('You can upload maximum 5 property images only.')
 class EnquiryForm(FlaskForm):
