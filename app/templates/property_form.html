@@ -125,7 +125,7 @@
         </p>
       </div>
 
-      <form method="POST" enctype="multipart/form-data" novalidate>
+      <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
         <div class="form-section">
@@ -179,13 +179,13 @@
               <label for="price" class="form-label fw-semibold">Asking Price ($) <span
                   class="text-danger">*</span></label>
               <input type="number" id="price" name="price" class="form-control" value="{{ form.price.data or '' }}"
-                placeholder="e.g. 1250000" min="0" step="1000" required />
+                placeholder="e.g. 1250000" min="0" required />
             </div>
             <div class="col-md-6">
               <label for="original_price" class="form-label fw-semibold">Original Price ($) <span
                   class="text-danger">*</span></label>
               <input type="number" id="original_price" name="original_price" class="form-control"
-                value="{{ form.original_price.data or '' }}" placeholder="e.g. 1500000" min="0" step="1000" required />
+                value="{{ form.original_price.data or '' }}" placeholder="e.g. 1500000" min="0" required />
             </div>
 
             <!-- Category & Status -->
