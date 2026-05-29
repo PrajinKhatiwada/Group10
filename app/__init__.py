@@ -12,9 +12,9 @@ def create_app():
     app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST", "localhost")
     app.config["MYSQL_PORT"] = int(os.getenv("MYSQL_PORT", 3306))
     app.config["MYSQL_USER"] = os.getenv("MYSQL_USER", "root")
-    app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD", "9814073971")
+    app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD", "Boburbek0119!")
     app.config["MYSQL_DATABASE"] = os.getenv("MYSQL_DATABASE", "property_sales")
-    
+
     app.config["UPLOAD_FOLDER"] = os.path.join(app.root_path, "static", "uploads")
     app.config["DOCUMENT_UPLOAD_FOLDER"] = os.path.join(app.root_path, "static", "documents")
 

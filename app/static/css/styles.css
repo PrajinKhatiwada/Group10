@@ -710,7 +710,7 @@ body {
 }
 
 .property-details-card-img-main {
-  height: 350px;
+  height: 500px;
   object-fit: cover;
   border-radius: 12px;
 }
@@ -850,7 +850,7 @@ body {
     color: #374151;
     text-decoration: none;
     border-radius: 12px;
-    padding: 9px 12px;
+    padding: 5px 3px;
     font-size: 0.82rem;
     font-weight: 600;
     display: inline-flex;
@@ -930,3 +930,135 @@ body {
       font-size: 0.8rem;
     }
   }
+
+  /* ! LOGIN */
+.login-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.login-form-wrapper {
+  max-width: 550px;
+  width: 100%;
+}
+
+.square {
+  position: absolute;
+  width: 100vw;
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(45deg);
+}
+
+.square.square-tl {
+  top: -80%;
+  left: -10%;
+  animation: bounce 6s infinite ease-in-out;
+  background: rgba(34, 34, 34, 0.1);
+  z-index: 50;
+}
+
+.square.square-tr {
+  top: 0%;
+  right: -30%;
+  animation: bounce 5s infinite ease-in-out;
+}
+
+.square.square-bl {
+  bottom: -70%;
+  left: -15%;
+  animation: bounce 4s infinite ease-in-out;
+}
+
+.square.square-br {
+  bottom: 0%;
+  right: -40%;
+  animation: bounce 3s infinite ease-in-out;
+  background: rgb(34, 34, 34, 0.1);
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0px) rotate(45deg);
+  }
+  50% {
+    transform: translateY(20px) rotate(45deg);
+    border-radius: 50px;
+  }
+  100% {
+    transform: translateY(0px) rotate(45deg);
+  }
+}
+
+.star {
+  height: 60px;
+  width: 60px;
+  display: table;
+  position: absolute;
+  box-shadow: 0 0 5px 0 rgba(34, 34, 34, 0.5);
+  transition: 0.5s;
+}
+
+.star1 {
+  bottom: -10%;
+  left: -30%;
+  transform: rotate(-30deg);
+  animation: sweep 4s infinite;
+  background: #ffc107;
+}
+
+.star2 {
+  bottom: -30%;
+  left: -10%;
+  transform: rotate(-30deg);
+  animation: sweep 3s infinite;
+  background: #071b2e;
+}
+
+.star3 {
+  bottom: -30%;
+  left: -10%;
+  transform: rotate(-30deg);
+  animation: sweep 2.7s infinite;
+  background: rgba(255, 0, 0, 0.5);
+}
+
+.star4 {
+  bottom: -30%;
+  left: -10%;
+  transform: rotate(-30deg);
+  animation: sweep 5s infinite;
+  background: rgba(0, 0, 255, 0.5);
+}
+
+@keyframes sweep {
+  100% {
+    bottom: 120%;
+    left: 120%;
+    transform: rotate(360deg);
+  }
+}
+
+.login-logo-wrapper {
+  background: #ebebeb;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/*! REGISTER */
+.register-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.register-form-wrapper {
+  max-width: 670px;
+  width: 100%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black;
+    border-radius: 50%;
+    padding: 20px;
+}

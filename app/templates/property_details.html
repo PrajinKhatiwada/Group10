@@ -1,93 +1,85 @@
-{% extends 'base.html' %}
-
-{% block title %}{{ prop.title }} – Property Sales{% endblock %}
-{% block body_class %}body-property-details{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}{{ prop.title }} – Property Sales{%
+endblock %} {% block body_class %}body-property-details{% endblock %} {% block
+content %}
 <main>
   <section class="property-details-property-details">
     <div class="container my-4">
-
       <!-- Breadcrumb -->
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a class="text-decoration-none text-secondary d-flex align-items-center" href="{{ url_for('main.home') }}">
+            <a
+              class="text-decoration-none text-secondary d-flex align-items-center"
+              href="{{ url_for('main.home') }}"
+            >
               <i class="bi bi-arrow-left-short fs-6"></i> Home
             </a>
           </li>
-          <li class="breadcrumb-item active" aria-current="page">{{ prop.title }}</li>
+          <li class="breadcrumb-item active" aria-current="page">
+            {{ prop.title }}
+          </li>
         </ol>
       </nav>
 
       <!-- Images -->
       <div class="row g-3">
-
         <!-- Main Image Slider -->
-        <div class="col-lg-8">
-          <div id="propertyImageSlider" class="carousel slide" data-bs-ride="carousel">
-
+        <div class="col-lg-12">
+          <div
+            id="propertyImageSlider"
+            class="carousel slide"
+            data-bs-ride="carousel"
+          >
             <div class="carousel-inner rounded-4 overflow-hidden">
-
-              {% if prop.images and prop.images|length > 0 %}
-
-              {% for image in prop.images %}
+              {% if prop.images and prop.images|length > 0 %} {% for image in
+              prop.images %}
               <div class="carousel-item {% if loop.first %}active{% endif %}">
-                <img src="{{ url_for('static', filename='uploads/' + image) }}"
-                  onerror="this.src='/static/img/default.png'"
-                  class="w-100 property-details-card-img-main best-seller-property-item" alt="{{ prop.title }}" />
+                <img
+                  src="{{ url_for('static', filename='uploads/' + image) }}"
+                  onerror="this.src = '/static/img/default.png'"
+                  class="w-100 property-details-card-img-main best-seller-property-item"
+                  alt="{{ prop.title }}"
+                />
               </div>
-              {% endfor %}
-
-              {% else %}
+              {% endfor %} {% else %}
 
               <div class="carousel-item active">
-                <img src="{{ url_for('static', filename='img/default.png') }}"
-                  class="w-100 property-details-card-img-main best-seller-property-item" alt="{{ prop.title }}" />
+                <img
+                  src="{{ url_for('static', filename='img/default.png') }}"
+                  class="w-100 property-details-card-img-main best-seller-property-item"
+                  alt="{{ prop.title }}"
+                />
               </div>
 
               {% endif %}
-
             </div>
 
             {% if prop.images and prop.images|length > 1 %}
-            <button class="carousel-control-prev" type="button" data-bs-target="#propertyImageSlider"
-              data-bs-slide="prev">
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#propertyImageSlider"
+              data-bs-slide="prev"
+            >
               <span class="carousel-control-prev-icon"></span>
             </button>
 
-            <button class="carousel-control-next" type="button" data-bs-target="#propertyImageSlider"
-              data-bs-slide="next">
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#propertyImageSlider"
+              data-bs-slide="next"
+            >
               <span class="carousel-control-next-icon"></span>
             </button>
             {% endif %}
-
           </div>
         </div>
-
-        <!-- Side Images -->
-        <div class="col-lg-4 d-flex flex-column gap-3">
-
-          <img
-            src="{{ url_for('static', filename='uploads/' + (prop.images[1] if prop.images and prop.images|length > 1 else (prop.images[0] if prop.images else ''))) }}"
-            onerror="this.src='/static/img/default.png'"
-            class="property-details-side-img w-100" alt="{{ prop.title }}" />
-
-          <img
-            src="{{ url_for('static', filename='uploads/' + (prop.images[2] if prop.images and prop.images|length > 2 else (prop.images[0] if prop.images else ''))) }}"
-            onerror="this.src='/static/img/default.png'"
-            class="property-details-side-img w-100" alt="{{ prop.title }}" />
-
-        </div>
-
       </div>
-      
 
       <div class="row mt-4">
-
         <!-- LEFT: Details -->
         <div class="col-lg-8">
-
           <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
             <span class="badge property-details-badge-active">
               {{ prop.status.value }}
@@ -97,7 +89,8 @@
 
           <h3 class="mt-1">{{ prop.title }}</h3>
           <p class="text-muted">
-            <i class="bi bi-geo-alt me-1"></i>{{ prop.address }}, {{ prop.suburb }}
+            <i class="bi bi-geo-alt me-1"></i>{{ prop.address }}, {{ prop.suburb
+            }}
           </p>
 
           <!-- Info boxes -->
@@ -146,7 +139,9 @@
           <div class="row g-2 mt-2 mb-4">
             {% for feature in prop.features %}
             <div class="col-12 col-sm-6 col-md-4">
-              <span class="badge bg-light text-dark border w-100 text-center p-2">
+              <span
+                class="badge bg-light text-dark border w-100 text-center p-2"
+              >
                 {{ feature }}
               </span>
             </div>
@@ -159,8 +154,8 @@
           {% if seller %}
           <h5>Listed By</h5>
           <p class="text-muted">
-            <i class="bi bi-person me-1"></i>{{ seller.full_name() }}<br>
-            <i class="bi bi-envelope me-1"></i>{{ seller.email }}<br>
+            <i class="bi bi-person me-1"></i>{{ seller.full_name() }}<br />
+            <i class="bi bi-envelope me-1"></i>{{ seller.email }}<br />
             <i class="bi bi-telephone me-1"></i>{{ seller.phone }}
           </p>
           <span class="divider-of-note"></span>
@@ -170,10 +165,11 @@
           <h5 class="mb-3">Document Vault</h5>
 
           <div class="row g-3 mb-4">
-            {% if documents %}
-            {% for doc in documents %}
+            {% if documents %} {% for doc in documents %}
             <div class="col-md-6">
-              <div class="d-flex align-items-center justify-content-between border rounded-3 p-3 bg-white shadow-sm">
+              <div
+                class="d-flex align-items-center justify-content-between border rounded-3 p-3 bg-white shadow-sm"
+              >
                 <div class="d-flex align-items-center gap-3">
                   <div class="bg-light border rounded p-2">
                     <i class="bi bi-file-earmark-text"></i>
@@ -186,14 +182,16 @@
                   </div>
                 </div>
 
-                <a href="{{ url_for('static', filename='documents/' ~ doc.file_name) }}" target="_blank"
-                  class="btn btn-sm btn-outline-primary">
+                <a
+                  href="{{ url_for('static', filename='documents/' ~ doc.file_name) }}"
+                  target="_blank"
+                  class="btn btn-sm btn-outline-primary"
+                >
                   View
                 </a>
               </div>
             </div>
-            {% endfor %}
-            {% else %}
+            {% endfor %} {% else %}
             <div class="col-12">
               <p class="text-muted">No documents uploaded for this property.</p>
             </div>
@@ -204,14 +202,24 @@
           {% if current_user and current_user.is_buyer() %}
           <span class="divider-of-note"></span>
           <h5>Submit an Enquiry</h5>
-          <form method="POST" action="{{ url_for('main.submit_enquiry', property_id=prop.id) }}">
+          <form
+            method="POST"
+            action="{{ url_for('main.submit_enquiry', property_id=prop.id) }}"
+          >
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <div class="mb-3">
-              <textarea name="message" class="form-control" rows="4"
-                placeholder="Ask about inspection times, features, or settlement..." required minlength="10"></textarea>
+              <textarea
+                name="message"
+                class="form-control"
+                rows="4"
+                placeholder="Ask about inspection times, features, or settlement..."
+                required
+                minlength="10"
+              ></textarea>
             </div>
             <button type="submit" class="btn btn-primary">
-              <i class="fa-solid fa-arrow-right-to-bracket me-1"></i>Submit Enquiry
+              <i class="fa-solid fa-arrow-right-to-bracket me-1"></i>Submit
+              Enquiry
             </button>
           </form>
 
@@ -219,29 +227,41 @@
 
           <!-- Offer Form -->
           <h5>Make an Offer</h5>
-          <form method="POST" action="{{ url_for('main.submit_offer', property_id=prop.id) }}">
+          <form
+            method="POST"
+            action="{{ url_for('main.submit_offer', property_id=prop.id) }}"
+          >
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <div class="mb-3">
               <label class="form-label">Offer Amount ($)</label>
-              <input type="number" name="amount" class="form-control" placeholder="e.g. 1200000" min="1" required />
+              <input
+                type="number"
+                name="amount"
+                class="form-control"
+                placeholder="e.g. 1200000"
+                min="1"
+                required
+              />
             </div>
             <div class="mb-3">
               <label class="form-label">Message (optional)</label>
-              <textarea name="message" class="form-control" rows="3"
-                placeholder="Finance pre-approved, flexible on settlement..."></textarea>
+              <textarea
+                name="message"
+                class="form-control"
+                rows="3"
+                placeholder="Finance pre-approved, flexible on settlement..."
+              ></textarea>
             </div>
             <button type="submit" class="btn btn-success">
               <i class="fa-solid fa-paper-plane me-1"></i>Submit Offer
             </button>
           </form>
           {% endif %}
-
         </div>
 
         <!-- RIGHT: Price box -->
         <div class="col-lg-4 mt-4 mt-lg-0">
-          <div class="property-details-price-box sticky-top" style="top: 80px;">
-
+          <div class="property-details-price-box">
             <p class="text-muted mb-1">Asking Price</p>
             <h3 class="text-success">${{ '{:,.0f}'.format(prop.price) }}</h3>
             {% if prop.original_price > prop.price %}
@@ -250,59 +270,97 @@
             </p>
             {% endif %}
 
-            <div class="listed-property-right-info text-start my-3 text-muted small">
-              <i class="bi bi-envelope me-1"></i>{{ enquiry_count }} Enquiries &nbsp;•&nbsp;
-              <i class="bi bi-tag me-1"></i>{{ offer_count }} Offers
+            <div
+              class="listed-property-right-info text-start my-3 text-muted small"
+            >
+              <i class="bi bi-envelope me-1"></i>{{ enquiry_count }} Enquiries
+              &nbsp;•&nbsp; <i class="bi bi-tag me-1"></i>{{ offer_count }}
+              Offers
             </div>
 
             {% if current_user and current_user.is_buyer() %}
 
             <!-- Bookmark toggle -->
-            <form method="POST" action="{{ url_for('main.toggle_bookmark', property_id=prop.id) }}">
-              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-              <button type="submit"
-                class="btn w-100 mt-2 {% if bookmarked %}btn-warning{% else %}btn-outline-warning text-dark{% endif %}">
-                <i class="bi bi-bookmark{% if bookmarked %}-fill{% endif %} me-1"></i>
+            <form
+              method="POST"
+              action="{{ url_for('main.toggle_bookmark', property_id=prop.id) }}"
+            >
+              <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+              />
+              <button
+                type="submit"
+                class="btn w-100 mt-2 {% if bookmarked %}btn-warning{% else %}btn-outline-warning text-dark{% endif %}"
+              >
+                <i
+                  class="bi bi-bookmark{% if bookmarked %}-fill{% endif %} me-1"
+                ></i>
                 {% if bookmarked %}Saved{% else %}Save Property{% endif %}
               </button>
             </form>
 
-            <a href="#offer-section" class="btn btn-success w-100 mt-3"
-              onclick="document.querySelector('form[action*=offer]').scrollIntoView({behavior:'smooth'}); return false;">
+            <a
+              href="#offer-section"
+              class="btn btn-success w-100 mt-3"
+              onclick="
+                document
+                  .querySelector('form[action*=offer]')
+                  .scrollIntoView({ behavior: 'smooth' });
+                return false;
+              "
+            >
               <i class="fa-solid fa-paper-plane me-1"></i>Make an Offer
             </a>
 
-            <a href="#enquiry-section" class="btn btn-primary w-100 mt-3"
-              onclick="document.querySelector('form[action*=enquiry]').scrollIntoView({behavior:'smooth'}); return false;">
-              <i class="fa-solid fa-arrow-right-to-bracket me-1"></i>Submit Enquiry
+            <a
+              href="#enquiry-section"
+              class="btn btn-primary w-100 mt-3"
+              onclick="
+                document
+                  .querySelector('form[action*=enquiry]')
+                  .scrollIntoView({ behavior: 'smooth' });
+                return false;
+              "
+            >
+              <i class="fa-solid fa-arrow-right-to-bracket me-1"></i>Submit
+              Enquiry
             </a>
 
             {% elif not current_user %}
             <div class="alert alert-warning mt-3 small">
-              <a href="{{ url_for('main.login') }}">Log in</a> to save, enquire, or make an offer.
+              <a href="{{ url_for('main.login') }}">Log in</a> to save, enquire,
+              or make an offer.
             </div>
             {% endif %}
 
             <!-- Seller management links -->
-            {% if current_user and (current_user.is_admin() or (current_user.is_seller() and current_user.id ==
-            prop.seller_id)) %}
-            <hr>
-            <a href="{{ url_for('main.edit_listing', property_id=prop.id) }}"
-              class="btn btn-outline-secondary w-100 mb-2">
+            {% if current_user and (current_user.is_admin() or
+            (current_user.is_seller() and current_user.id == prop.seller_id)) %}
+            <hr />
+            <a
+              href="{{ url_for('main.edit_listing', property_id=prop.id) }}"
+              class="btn btn-outline-secondary w-100 mb-2"
+            >
               <i class="bi bi-pencil-square me-1"></i>Edit Listing
             </a>
-            <a href="{{ url_for('main.listing_enquiries', property_id=prop.id) }}"
-              class="btn btn-outline-primary w-100 mb-2">
-              <i class="bi bi-envelope me-1"></i>View Enquiries ({{ enquiry_count }})
+            <a
+              href="{{ url_for('main.listing_enquiries', property_id=prop.id) }}"
+              class="btn btn-outline-primary w-100 mb-2"
+            >
+              <i class="bi bi-envelope me-1"></i>View Enquiries ({{
+              enquiry_count }})
             </a>
-            <a href="{{ url_for('main.listing_offers', property_id=prop.id) }}" class="btn btn-outline-success w-100">
+            <a
+              href="{{ url_for('main.listing_offers', property_id=prop.id) }}"
+              class="btn btn-outline-success w-100"
+            >
               <i class="bi bi-tag me-1"></i>View Offers ({{ offer_count }})
             </a>
             {% endif %}
-
           </div>
         </div>
-
       </div>
     </div>
   </section>
