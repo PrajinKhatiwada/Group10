@@ -103,31 +103,29 @@ CREATE TABLE IF NOT EXISTS documents (
 
 
 
--- =========================================
 -- USERS
--- =========================================
 
 INSERT INTO users
 (id, username, password_hash, email, firstname, surname, phone, role)
 VALUES
-('U001', 'admin1', 'hashed_pw', 'admin1@gmail.com', 'John', 'Smith', '0400000001', 'admin'),
-('U002', 'seller1', 'hashed_pw', 'seller1@gmail.com', 'Michael', 'Brown', '0400000002', 'seller'),
-('U003', 'seller2', 'hashed_pw', 'seller2@gmail.com', 'David', 'Wilson', '0400000003', 'seller'),
-('U004', 'buyer1', 'hashed_pw', 'buyer1@gmail.com', 'Emma', 'Taylor', '0400000004', 'buyer'),
-('U005', 'buyer2', 'hashed_pw', 'buyer2@gmail.com', 'Olivia', 'Johnson', '0400000005', 'buyer'),
-('U006', 'buyer3', 'hashed_pw', 'buyer3@gmail.com', 'Sophia', 'White', '0400000006', 'buyer'),
-('U007', 'seller3', 'hashed_pw', 'seller3@gmail.com', 'Daniel', 'Martin', '0400000007', 'seller'),
-('U008', 'buyer4', 'hashed_pw', 'buyer4@gmail.com', 'James', 'Clark', '0400000008', 'buyer'),
-('U009', 'buyer5', 'hashed_pw', 'buyer5@gmail.com', 'Lucas', 'Walker', '0400000009', 'buyer'),
-('U010', 'seller4', 'hashed_pw', 'seller4@gmail.com', 'Henry', 'Hall', '0400000010', 'seller'),
-('U011', 'buyer6', 'hashed_pw', 'buyer6@gmail.com', 'Mia', 'Allen', '0400000011', 'buyer'),
-('U012', 'buyer7', 'hashed_pw', 'buyer7@gmail.com', 'Charlotte', 'Young', '0400000012', 'buyer'),
-('U013', 'seller5', 'hashed_pw', 'seller5@gmail.com', 'Benjamin', 'King', '0400000013', 'seller'),
-('U014', 'buyer8', 'hashed_pw', 'buyer8@gmail.com', 'Ethan', 'Scott', '0400000014', 'buyer');
+('U001', 'admin1', 'scrypt:32768:8:1$eXZW3Ul8bh4nRqzd$abcc42450facc8f379bc1664ec9a175031b2abd6e16fcc7d5fca182322b45ecb37e86961e6e58f8218712a1f15b1eac5aab9131ad345f69d88093d609c89bcc6', 'admin1@gmail.com', 'John', 'Smith', '0400000001', 'admin'),
+('U002', 'seller1', 'scrypt:32768:8:1$QQfsgQDzeurgAN8T$c318ff15d8cef27c5f6026376b59646470550c5d8404d141e23f62fe408d6d3e69bca8dd7829ae2c2c7603c3d292e165a58f3ef251bbf646f3705fd310f00337', 'seller1@gmail.com', 'Michael', 'Brown', '0400000002', 'seller'),
+('U003', 'seller2', 'scrypt:32768:8:1$m7oYYmTxdxCqabpU$69d743c335b7d7219f0f6fe3badf27e05e8cd067b78bfc6f3954304d3584ff0d15a40a332fdf0f11afcd3d2172ce5e015de6ad28d9290d9839e1d5423dfb8af0', 'seller2@gmail.com', 'David', 'Wilson', '0400000003', 'seller'),
+('U004', 'buyer1', 'scrypt:32768:8:1$zbjl6UGAiAB9U5AG$1d6de0eb3c42e83f34e9c59f315dd773b9b4831f00e7797d2b73acbfc4c6805d544d625b79b89a719dc1880457c515e7eba010fe14e30c31dce7e9616618716e', 'buyer1@gmail.com', 'Emma', 'Taylor', '0400000004', 'buyer'),
+('U005', 'buyer2', 'scrypt:32768:8:1$27vGoJTVSgpct6RJ$47fa3883e4c68a3498d9ba0d489ad1282fba8bee0c91b98b02ac6d2d4e546028092a0b57e5c1823f31eb52ca2185e2bd50d1ffb3fe0ad81f00c0143a29c9acbf', 'buyer2@gmail.com', 'Olivia', 'Johnson', '0400000005', 'buyer'),
+('U006', 'buyer3', 'scrypt:32768:8:1$zbjl6UGAiAB9U5AG$1d6de0eb3c42e83f34e9c59f315dd773b9b4831f00e7797d2b73acbfc4c6805d544d625b79b89a719dc1880457c515e7eba010fe14e30c31dce7e9616618716e', 'buyer3@gmail.com', 'Sophia', 'White', '0400000006', 'buyer'),
+('U007', 'seller3', 'scrypt:32768:8:1$QQfsgQDzeurgAN8T$c318ff15d8cef27c5f6026376b59646470550c5d8404d141e23f62fe408d6d3e69bca8dd7829ae2c2c7603c3d292e165a58f3ef251bbf646f3705fd310f00337', 'seller3@gmail.com', 'Daniel', 'Martin', '0400000007', 'seller'),
+('U008', 'buyer4', 'scrypt:32768:8:1$27vGoJTVSgpct6RJ$47fa3883e4c68a3498d9ba0d489ad1282fba8bee0c91b98b02ac6d2d4e546028092a0b57e5c1823f31eb52ca2185e2bd50d1ffb3fe0ad81f00c0143a29c9acbf', 'buyer4@gmail.com', 'James', 'Clark', '0400000008', 'buyer'),
+('U009', 'buyer5', 'scrypt:32768:8:1$zbjl6UGAiAB9U5AG$1d6de0eb3c42e83f34e9c59f315dd773b9b4831f00e7797d2b73acbfc4c6805d544d625b79b89a719dc1880457c515e7eba010fe14e30c31dce7e9616618716e', 'buyer5@gmail.com', 'Lucas', 'Walker', '0400000009', 'buyer'),
+('U010', 'seller4', 'scrypt:32768:8:1$m7oYYmTxdxCqabpU$69d743c335b7d7219f0f6fe3badf27e05e8cd067b78bfc6f3954304d3584ff0d15a40a332fdf0f11afcd3d2172ce5e015de6ad28d9290d9839e1d5423dfb8af0', 'seller4@gmail.com', 'Henry', 'Hall', '0400000010', 'seller'),
+('U011', 'buyer6', 'scrypt:32768:8:1$27vGoJTVSgpct6RJ$47fa3883e4c68a3498d9ba0d489ad1282fba8bee0c91b98b02ac6d2d4e546028092a0b57e5c1823f31eb52ca2185e2bd50d1ffb3fe0ad81f00c0143a29c9acbf', 'buyer6@gmail.com', 'Mia', 'Allen', '0400000011', 'buyer'),
+('U012', 'buyer7', 'scrypt:32768:8:1$zbjl6UGAiAB9U5AG$1d6de0eb3c42e83f34e9c59f315dd773b9b4831f00e7797d2b73acbfc4c6805d544d625b79b89a719dc1880457c515e7eba010fe14e30c31dce7e9616618716e', 'buyer7@gmail.com', 'Charlotte', 'Young', '0400000012', 'buyer'),
+('U013', 'seller5', 'scrypt:32768:8:1$QQfsgQDzeurgAN8T$c318ff15d8cef27c5f6026376b59646470550c5d8404d141e23f62fe408d6d3e69bca8dd7829ae2c2c7603c3d292e165a58f3ef251bbf646f3705fd310f00337', 'seller5@gmail.com', 'Benjamin', 'King', '0400000013', 'seller'),
+('U014', 'buyer8', 'scrypt:32768:8:1$27vGoJTVSgpct6RJ$47fa3883e4c68a3498d9ba0d489ad1282fba8bee0c91b98b02ac6d2d4e546028092a0b57e5c1823f31eb52ca2185e2bd50d1ffb3fe0ad81f00c0143a29c9acbf', 'buyer8@gmail.com', 'Ethan', 'Scott', '0400000014', 'buyer'),
+('U015', 'admin2', 'scrypt:32768:8:1$ExHHWMXCtyPMAhYY$c228e01658c7f7fc25a39796dc0cb69c82132bb98c5836281d6fe9ed1accf1e857fac9104789dfb91f47f1ec483419c8f26c424be61dc924e6304425e88e8d6d', 'admin2@gmail.com', 'John', 'Cena', '0400000015', 'admin');
 
--- =========================================
+
 -- PROPERTIES
--- =========================================
 
 INSERT INTO properties
 (id, title, address, suburb, description, price, original_price,
@@ -149,9 +147,8 @@ VALUES
 ('P013','Eco Friendly Home','12 Solar Way','Brisbane','Eco smart house',1350000,1400000,'House','Active',4,3,2,3400,'U007','eco.jpg','Solar,Garage',NOW()),
 ('P014','Downtown Apartment','11 Central Ave','Melbourne','Luxury downtown apartment',870000,920000,'Apartment','Active',2,2,1,1300,'U010','apt5.jpg','Gym,Parking',NOW());
 
--- =========================================
+
 -- BOOKMARKS
--- =========================================
 
 INSERT INTO bookmarks
 (id, user_id, property_id, notes, created_at)
@@ -171,9 +168,8 @@ VALUES
 ('BM013','U009','P013','Eco home',NOW()),
 ('BM014','U011','P014','Central location',NOW());
 
--- =========================================
+
 -- ENQUIRIES
--- =========================================
 
 INSERT INTO enquiries
 (id, property_id, buyer_id, message, status, created_at)
@@ -193,9 +189,8 @@ VALUES
 ('E013','P013','U009','Need more details','New',NOW()),
 ('E014','P014','U011','When was property built?','Responded',NOW());
 
--- =========================================
+
 -- OFFERS
--- =========================================
 
 INSERT INTO offers
 (id, property_id, buyer_id, amount, message, status, created_at)
@@ -215,9 +210,8 @@ VALUES
 ('O013','P013','U009',1300000,'Eco home offer','Pending',NOW()),
 ('O014','P014','U011',850000,'Downtown apartment offer','Accepted',NOW());
 
--- =========================================
+
 -- DOCUMENTS
--- =========================================
 
 INSERT INTO documents
 (property_id, document_name, file_name, file_size, file_type)
